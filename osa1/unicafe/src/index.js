@@ -3,12 +3,24 @@ import ReactDOM from 'react-dom'
 
 const Header = ({text}) => <h1>{text}</h1>
 const Button = ({handler, text}) => <button onClick={handler}>{text}</button>
-const Stats = ({good, neutral, bad}) => {
+const Statistics = ({good, neutral, bad}) => {
+  const sum = good + neutral + bad
+  const average = (good - bad) / sum
+  const positivePercent = good / sum * 100
+  if(sum === 0){
+    return (
+      <div>No feedback given</div>
+    )
+  }
   return(
     <div>
       <div>good {good}</div>
       <div>neutral {neutral}</div>
       <div>bad {bad}</div>
+      <div>all {sum}</div>
+      <div>average {average}</div>
+      <div>positive {positivePercent} % </div>
+      <div></div>
     </div>
   )
 }
@@ -28,7 +40,7 @@ const App = () => {
       <Button handler={handleClick(neutral, setNeutral)} text="neutral" />
       <Button handler={handleClick(bad, setBad)} text="bad" />
       <Header text="statistics"/>
-      <Stats good={good} neutral={neutral} bad={bad}/>
+      <Statistics good={good} neutral={neutral} bad={bad}/>
     </div>
   )
 }
