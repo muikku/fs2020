@@ -14,16 +14,17 @@ const Statistics = ({good, neutral, bad}) => {
   }
   return(
     <div>
-      <div>good {good}</div>
-      <div>neutral {neutral}</div>
-      <div>bad {bad}</div>
-      <div>all {sum}</div>
-      <div>average {average}</div>
-      <div>positive {positivePercent} % </div>
-      <div></div>
+      <StatisticLine text="good" value={good}/>
+      <StatisticLine text="neutral" value={neutral}/>
+      <StatisticLine text="bad" value={bad}/>
+      <StatisticLine text="all" value={sum}/>
+      <StatisticLine text="average" value={average}/>
+      <StatisticLine text="positive" value={average + " %"}/>
     </div>
   )
 }
+
+const StatisticLine = ({text, value}) => <div>{text} {value}</div>
 
 const App = () => {
   // tallenna napit omaan tilaansa
