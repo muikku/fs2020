@@ -3,14 +3,28 @@ import ReactDOM from 'react-dom'
 
 const Button = ({handler, text}) => <button onClick={handler}>{text}</button>
 const Random = (max) => () => Math.floor(Math.random() * Math.floor(max))
+const UpdateList = (list, givenIndex) => () => list.map((e, index) => index === givenIndex ? { ...e, votes: e.votes + 1 } : e)
+const Statistics = ({data, pick}) => {
+  return(
+    <div>
+      <div>{data[pick].anecdote}</div>
+      <div>has {data[pick].votes} votes</div>
+    </div>
+  )
+}
 
 const App = ({anecdotes}) => {
   const [selected, setSelected] = useState(0)
+  const [anecdoteState, setAnecdoteState] = useState(() => anecdotes.map(e => ({anecdote: e, votes: 0})))
   const handleClick = (state, setState) => () => setState(state)
   return (
     <div>
-      <div>{anecdotes[selected]}</div>
-      <Button handler={handleClick(Random(anecdotes.length), setSelected)} text="next anecdote"/>
+      <Statistics data={anecdoteState} pick={selected}/>
+      <Button 
+        handler={handleClick(UpdateList(anecdoteState, selected), setAnecdoteState)}
+        text="vote"
+      />
+      <Button handler={handleClick(Random(anecdoteState.length), setSelected)} text="next anecdote"/>
     </div>
   )
 }
