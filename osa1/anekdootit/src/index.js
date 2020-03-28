@@ -13,6 +13,9 @@ const Statistics = ({data}) => {
     </div>
   )
 }
+const ShowMostVoted = ({array}) => <Statistics 
+  data={array.reduce((prev, curr) => (prev.votes >= curr.votes) ? prev : curr)}
+/>
 
 const App = ({anecdotes}) => {
   const [selected, setSelected] = useState(0)
@@ -28,6 +31,7 @@ const App = ({anecdotes}) => {
       />
       <Button handler={handleClick(Random(anecdoteState.length), setSelected)} text="next anecdote"/>
       <Header text="Anecdote with most votes"/>
+      <ShowMostVoted array={anecdoteState}/>
     </div>
   )
 }
