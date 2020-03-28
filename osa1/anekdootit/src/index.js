@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+const Header = ({text}) => <h1>{text}</h1>
 const Button = ({handler, text}) => <button onClick={handler}>{text}</button>
 const Random = (max) => () => Math.floor(Math.random() * Math.floor(max))
 const UpdateList = (list, givenIndex) => () => list.map((e, index) => index === givenIndex ? { ...e, votes: e.votes + 1 } : e)
-const Statistics = ({data, pick}) => {
+const Statistics = ({data}) => {
   return(
     <div>
-      <div>{data[pick].anecdote}</div>
-      <div>has {data[pick].votes} votes</div>
+      <div>{data.anecdote}</div>
+      <div>has {data.votes} votes</div>
     </div>
   )
 }
@@ -19,12 +20,14 @@ const App = ({anecdotes}) => {
   const handleClick = (state, setState) => () => setState(state)
   return (
     <div>
-      <Statistics data={anecdoteState} pick={selected}/>
+      <Header text="Anecdote of the day"/>
+      <Statistics data={anecdoteState[selected]}/>
       <Button 
         handler={handleClick(UpdateList(anecdoteState, selected), setAnecdoteState)}
         text="vote"
       />
       <Button handler={handleClick(Random(anecdoteState.length), setSelected)} text="next anecdote"/>
+      <Header text="Anecdote with most votes"/>
     </div>
   )
 }
