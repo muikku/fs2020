@@ -36,6 +36,7 @@ const App = ({anecdotes}) => {
   )
 }
 
+
 const anecdotes = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
