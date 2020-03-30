@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Filter from './components/Filter'
-import DisplayData from './components/DisplayData'
+import DisplayCountries from './components/DisplayCountries'
 import axios from 'axios'
 
 
@@ -19,7 +19,7 @@ function App() {
   return (
     <div>
       <Filter onChange={onFilterChange} value={filter} />
-      <DisplayData data={countryData} filter={filter}/>
+      <DisplayCountries data={countryData} filter={filter}/>
     </div>
   )
 }

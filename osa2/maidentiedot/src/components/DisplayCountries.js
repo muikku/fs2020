@@ -1,6 +1,7 @@
 import React from 'react'
+import DisplayCountry from './DisplayCountry'
 
-const DisplayData = ({data, filter}) => {
+const DisplayCountries = ({data, filter}) => {
     const filteredData = data
     .filter(e => e.name
         .toLowerCase()
@@ -8,7 +9,12 @@ const DisplayData = ({data, filter}) => {
             .toLowerCase()
         )
     )
-    
+
+    if(filteredData.length === 1){
+        return (
+            <DisplayCountry country={filteredData[0]}/>
+        )
+    }
     return (
     <div>
         {filteredData.map(e => <div>{e.name}</div>)}
@@ -16,4 +22,4 @@ const DisplayData = ({data, filter}) => {
     )
 }
 
-export default DisplayData
+export default DisplayCountries
