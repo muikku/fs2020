@@ -15,11 +15,17 @@ function App() {
   }, [])
 
   const onFilterChange = (event) => setFilter(event.target.value)
+  const onButtonClick = (data) => setFilter(data)
 
   return (
     <div>
       <Filter onChange={onFilterChange} value={filter} />
-      <DisplayCountries data={countryData} filter={filter}/>
+      <DisplayCountries 
+        data={countryData} 
+        filter={filter}
+        onClick={onButtonClick}
+      />
+      
     </div>
   )
 }
