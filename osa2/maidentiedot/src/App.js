@@ -6,28 +6,27 @@ import axios from 'axios'
 
 function App() {
   const [ countryData, setCountryData ] = useState([])
-  const [ weatherData, setWeatherData ] = useState([])
   const [ filter, setFilter ] = useState('')
-  const api_key = process.env.REACT_APP_API_KEY
+  const [ weatherData, setWeatherData ] = useState(null)
+
   useEffect(() => {
     axios
     .get('https://restcountries.eu/rest/v2/all')
     .then(res => {setCountryData(res.data)})
   }, [])
-
   
   const getWeather = (text) => {
+    const api_key = process.env.REACT_APP_API_KEY
     const params = {
       access_key: api_key,
       query: text
     }
     axios
       .get('http://api.weatherstack.com/current',{params})
-      .then(res => {setWeatherData(res.data)})
-  }
-  useEffect(() =>{
-    getWeather('Oslo')
-  },[])
+      .then((res) => {
+          setWeatherData(res.data)
+      })
+}
 
   const onFilterChange = (event) => setFilter(event.target.value)
   const onButtonClick = (data) => setFilter(data)
@@ -36,9 +35,11 @@ function App() {
     <div>
       <Filter onChange={onFilterChange} value={filter} />
       <DisplayCountries 
-        data={countryData} 
+        countryData={countryData} 
+        weatherData={weatherData}
         filter={filter}
         onClick={onButtonClick}
+        getWeather={getWeather}
       />
     </div>
   )

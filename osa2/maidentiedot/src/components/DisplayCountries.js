@@ -1,17 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import DisplayCountry from './DisplayCountry'
 import Button from './Button'
 
-const DisplayCountries = ({data, filter, onClick}) => {
-    const filteredData = data
+const DisplayCountries = ({countryData, weatherData, filter, onClick, getWeather}) => {
+    const [ checkedWeather, setCheckedWearher ] = useState(false)
+    const filteredData = countryData
     .filter(e => e.name
         .toLowerCase()
         .includes(filter
             .toLowerCase()
         )
     )
-
+    
     if(filteredData.length > 10){
+        if(checkedWeather){
+            setCheckedWearher(false)
+        }
         return(
             
             <div>Too many matches, specify another filter
@@ -20,8 +24,12 @@ const DisplayCountries = ({data, filter, onClick}) => {
     }
 
     if(filteredData.length === 1){
+        if(!checkedWeather){
+            getWeather(filteredData[0])
+            setCheckedWearher(true)
+        }    
         return (
-            <DisplayCountry country={filteredData[0]}/>
+            <DisplayCountry country={filteredData[0]} weather={weatherData}/>
         )
     }
 
