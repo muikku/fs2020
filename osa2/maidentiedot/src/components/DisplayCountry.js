@@ -1,11 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 
-const DisplayData = ({country, weather}) => {
+const DisplayCountry = ({country}) => {
+
+    const api_key = process.env.REACT_APP_API_KEY
+    const [ weather, setWeatherData ] = useState(null)
+
+    useEffect(() => {
+        const params = {
+            access_key: api_key,
+            query: country.capital
+        }
+        axios
+        .get('http://api.weatherstack.com/current', {params})
+        .then(res => {setWeatherData(res.data)})
+    }, [])
+
     if(!weather){
         return (
         <div>Loading data...</div>
         )
     }
+
     return (
     <div>
         <h1>{country.name}</h1>
@@ -24,4 +40,4 @@ const DisplayData = ({country, weather}) => {
     )
 }
 
-export default DisplayData
+export default DisplayCountry

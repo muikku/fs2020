@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Filter = ({onChange, value}) => {
+const filterBox = ({onChange, value}) => {
     return (
         <div>
             find countries
@@ -9,4 +9,12 @@ const Filter = ({onChange, value}) => {
     )
 }
 
-export default Filter
+const filteredData = (countryData, filter) => countryData
+    .filter(e => e.name
+        .toLowerCase()
+        .includes(filter
+            .toLowerCase()
+        )
+    )
+
+export default { filterBox, filteredData }
