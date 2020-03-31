@@ -33,9 +33,9 @@ const DisplayCountry = ({country}) => {
         </ul>
         <img width={100} hight={100} src={country.flag} alt={`Flag of ${country.name}`}/>
         <h2>Weather in {weather.location.name}</h2>
-        <div>temperature: {weather.current.temperature} Celcius</div>
+        <div><strong>temperature:</strong> {weather.current.temperature} Celcius</div>
         <img width={40} height={40} src={weather.current.weather_icons[0]} alt={weather.current.weather_descriptions[0]}/>
-        <div>wind: {weather.current.wind_speed} mph direction {weather.current.wind_dir}</div>
+        <div><strong>wind:</strong> {weather.current.wind_speed} mph direction {weather.current.wind_dir}</div>
     </div>
     )
 }
