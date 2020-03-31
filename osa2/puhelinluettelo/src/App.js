@@ -14,23 +14,33 @@ const App = () => {
   useEffect(() => {
     contactService.getAll().then(res => {setPersons(res)})
     .catch(err => {
-      console.log(err.message())
+      console.log('err')
     })
   }, [])
 
   const addName = (event) => {
-      event.preventDefault()
-      const personObj = {
-          name: newName,
-          number: newNumber
-      }
-      persons.map(e => e.name).includes(personObj.name) ? window.alert(`${personObj.name} is already added to phonebook`) :
-      contactService.create(personObj).then(resObj => {
-        setPersons(persons.concat(resObj))
-      })
-      
-      setNewName('')
-      setNewNumber('')
+    event.preventDefault()
+    const personObj = {
+        name: newName,
+        number: newNumber
+    }
+    persons.map(e => e.name).includes(personObj.name) ? window.alert(`${personObj.name} is already added to phonebook`) :
+    contactService.create(personObj).then(resObj => {
+      setPersons(persons.concat(resObj))
+    })
+    
+    setNewName('')
+    setNewNumber('')
+  }
+
+  const removeContact = (id) => {
+    contactService
+    .remove(id)
+    .catch(err => {
+      console.log('err')
+    })
+    const updatedContacts = persons.filter(e => e.id !== id)
+    setPersons(updatedContacts)
   }
 
   const onFormNameChange = (event) => setNewName(event.target.value)
@@ -50,7 +60,7 @@ const App = () => {
         newNumber={newNumber} 
       />
       <h2>Numbers</h2>
-      <Persons data={persons} filter={search}/>
+      <Persons data={persons} filter={search} del={removeContact}/>
     </div>
   )
 
