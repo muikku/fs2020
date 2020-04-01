@@ -3,6 +3,7 @@ import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import contactService from './services/contacts'
+import Message from './components/Message'
 
 
 const App = () => {
@@ -10,6 +11,8 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ search, setSearch ] = useState('')
+  const [ messages, setMessages ] = useState(null)
+  var msgTimeout;
 
   useEffect(() => {
     contactService.getAll().then(res => {setPersons(res)})
@@ -17,6 +20,15 @@ const App = () => {
       console.log('err')
     })
   }, [])
+
+  const inform = (message, error) => {
+    clearTimeout(msgTimeout)
+    const theMessage = <Message message={message} error={error}/>
+    setMessages(theMessage)
+    msgTimeout = setTimeout(() => {
+      setMessages(null)
+    }, 10000)
+  }
 
   const addOrUpdateContact = (event) => {
     event.preventDefault()
@@ -40,15 +52,22 @@ const App = () => {
     persons.map(e => e.name).includes(personObj.name) ? window.alert(`${personObj.name} is already added to phonebook`) :
     contactService.create(personObj).then(resObj => {
       setPersons(persons.concat(resObj))
+      inform(`Added ${resObj.name}`, false)
+    })
+    .catch(err => {
+      inform(`Error: Could add ${newName}`, true)
     })
     
   }
 
   const removeContact = (id) => {
+    const saveContact = persons.find(e => e.id === id)
     contactService
-    .remove(id)
+    .remove(id).then(res => {
+      inform(`Deleted contact ${saveContact.name}`, false)
+    })
     .catch(err => {
-      console.log('err')
+      inform('Error: Could not delete message', true)
     })
     const updatedContacts = persons.filter(e => e.id !== id)
     setPersons(updatedContacts)
@@ -59,9 +78,10 @@ const App = () => {
     const changed = {...contact, number: number }
     contactService.update(id, changed).then(returnedContact => {
       setPersons(persons.map(person => person.id !== id ? person : returnedContact))
+      inform(returnedContact.id, `Updated number of ${returnedContact.name} to ${returnedContact.number}`, false)
     })
-    .catch(error => {
-      console.log('there was an error with contact update')
+    .catch(err => {
+      inform(`Information of ${contact.name} has already been removed from server`, true)
     })
   }
 
@@ -72,8 +92,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>{messages ? messages : <div></div>}</div>
       <Filter onSearchFieldChange={onSearchFieldChange} search={search} />
-
       <PersonForm 
         addName={addOrUpdateContact} 
         onFormNameChange={onFormNameChange} 
