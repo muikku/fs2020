@@ -18,8 +18,21 @@ const App = () => {
     })
   }, [])
 
-  const addName = (event) => {
+  const addOrUpdateContact = (event) => {
     event.preventDefault()
+    if(persons.map(e => e.name).includes(newName)){
+      if(window.confirm(`${newName} is already added to phonebook, replace the old number with new one?`)){
+        updateNumber(persons.find(e => e.name === newName).id, newNumber)
+      }
+    } else {
+      addName(event)
+    }
+
+    setNewName('')
+    setNewNumber('')
+  }
+
+  const addName = (event) => {
     const personObj = {
         name: newName,
         number: newNumber
@@ -29,8 +42,6 @@ const App = () => {
       setPersons(persons.concat(resObj))
     })
     
-    setNewName('')
-    setNewNumber('')
   }
 
   const removeContact = (id) => {
@@ -43,6 +54,17 @@ const App = () => {
     setPersons(updatedContacts)
   }
 
+  const updateNumber = (id, number) => {
+    const contact = persons.find(n => n.id === id)
+    const changed = {...contact, number: number }
+    contactService.update(id, changed).then(returnedContact => {
+      setPersons(persons.map(person => person.id !== id ? person : returnedContact))
+    })
+    .catch(error => {
+      console.log('there was an error with contact update')
+    })
+  }
+
   const onFormNameChange = (event) => setNewName(event.target.value)
   const onFormNumberChange = (event) => setNewNumber(event.target.value)
   const onSearchFieldChange = (event) => setSearch(event.target.value)
@@ -53,7 +75,7 @@ const App = () => {
       <Filter onSearchFieldChange={onSearchFieldChange} search={search} />
 
       <PersonForm 
-        addName={addName} 
+        addName={addOrUpdateContact} 
         onFormNameChange={onFormNameChange} 
         newName={newName}
         onFormNumberChange={onFormNumberChange} 
