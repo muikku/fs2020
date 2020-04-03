@@ -78,7 +78,7 @@ const App = () => {
     const changed = {...contact, number: number }
     contactService.update(id, changed).then(returnedContact => {
       setPersons(persons.map(person => person.id !== id ? person : returnedContact))
-      inform(returnedContact.id, `Updated number of ${returnedContact.name} to ${returnedContact.number}`, false)
+      inform(`Updated number of ${returnedContact.name} to ${returnedContact.number}`, false)
     })
     .catch(err => {
       inform(`Information of ${contact.name} has already been removed from server`, true)
