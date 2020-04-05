@@ -16,8 +16,8 @@ const App = () => {
 
   useEffect(() => {
     contactService.getAll().then(res => {setPersons(res)})
-    .catch(err => {
-      console.log('err')
+    .catch(error => {
+      console.log(error.response.data)
     })
   }, [])
 
@@ -54,8 +54,9 @@ const App = () => {
       setPersons(persons.concat(resObj))
       inform(`Added ${resObj.name}`, false)
     })
-    .catch(err => {
-      inform(`Error: Could add ${newName}`, true)
+    .catch(error => {
+      console.log(error.response.data)
+      inform(`${error.response.data.error}`, true)
     })
     
   }
@@ -66,8 +67,10 @@ const App = () => {
     .remove(id).then(res => {
       inform(`Deleted contact ${saveContact.name}`, false)
     })
-    .catch(err => {
-      inform('Error: Could not delete message', true)
+    .catch(error => {
+      console.log(error.response.data)
+      const data = error.response.data
+      inform(`${data.error}`, true)
     })
     const updatedContacts = persons.filter(e => e.id !== id)
     setPersons(updatedContacts)
@@ -81,6 +84,7 @@ const App = () => {
       inform(`Updated number of ${returnedContact.name} to ${returnedContact.number}`, false)
     })
     .catch(err => {
+      setPersons(persons.filter(p => p.id !== id))
       inform(`Information of ${contact.name} has already been removed from server`, true)
     })
   }
