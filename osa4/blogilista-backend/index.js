@@ -1,9 +1,11 @@
+/* eslint-disable no-undef */
 require('dotenv').config()
 const http = require('http')
 const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
+
 
 const url = process.env.MONGODB_URI
 
