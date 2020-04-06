@@ -4,6 +4,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
+const Blog = require('./models/blog')
 mongoose.set('useFindAndModify', false)
 mongoose.set('useCreateIndex', true)
 console.log(config.MONGODB_URI)
@@ -11,15 +12,6 @@ console.log(config.MONGODB_URI)
 app.use(cors())
 app.use(express.json())
 
-
-const blogSchema = mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number
-})
-
-const Blog = mongoose.model('Blog', blogSchema)
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
