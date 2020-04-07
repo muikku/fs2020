@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --verbose",
     "dev": "nodemon index.js",
     "lint": "eslint ."
   },
@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "eslint": "^6.8.0",
+    "jest": "^25.2.7",
     "nodemon": "^2.0.2"
   }
 }
