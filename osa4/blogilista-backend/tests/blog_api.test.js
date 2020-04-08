@@ -31,10 +31,11 @@ describe('HTTP POST BLOGS', () => {
   test('correct amount of blogs at db after post and contains specific blog title', async () => {
     const blog = helper.testBlogNoLikes()
     await api
-      .post('/api/blogs', blog)
+      .post('/api/blogs')
+      .send(blog)
     const blogsNow = await helper.blogsInDd()
     expect(blogsNow.length).toBe(helper.initialBlogs.length + 1)
-    expect(blogsNow.map(b => b.title)).toContain(helper.testBlogNoLikes.title)
+    expect(blogsNow.map(b => b.title)).toContain(helper.testBlogNoLikes().title)
   })
 
 })
