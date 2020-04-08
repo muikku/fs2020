@@ -20,6 +20,12 @@ describe('HTTP GET BLOGS', () => {
     expect(response.body).toHaveLength(helper.initialBlogs.length)
   })
 
+  test('blog object has property id', async () => {
+    const response = await api
+      .get('/api/blogs')
+    expect(response.body[0].id).toBeDefined()
+  })
+
 })
 
 
