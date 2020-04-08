@@ -28,11 +28,13 @@ describe('HTTP GET BLOGS', () => {
 })
 
 describe('HTTP POST BLOGS', () => {
-  test('blogs are returned as json and there is correct amount', async () => {
-    const blog = helper.testBlogNoLikes
-    const response = await api
+  test('correct amount of blogs at db after post and contains specific blog title', async () => {
+    const blog = helper.testBlogNoLikes()
+    await api
       .post('/api/blogs', blog)
-    expect(response.body.length).toBe(helper.initialBlogs.length + 1)
+    const blogsNow = await helper.blogsInDd()
+    expect(blogsNow.length).toBe(helper.initialBlogs.length + 1)
+    expect(blogsNow.map(b => b.title)).toContain(helper.testBlogNoLikes.title)
   })
 
 })

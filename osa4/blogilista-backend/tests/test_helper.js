@@ -17,10 +17,7 @@ const blogsInDd = async () => {
   return blogs.map(blog => blog.toJSON())
 }
 
-const testBlogNoLikes = async () => {
-  const blog = new Blog({ title: 'Weird history of Tiberian Sun series', author: 'The Ancient One' })
-  return blog
-}
+const testBlogNoLikes = () => new Blog({ title: 'Weird history of Tiberian Sun series', author: 'The Ancient One' })
 
 module.exports = {
   initialBlogs, testBlogNoLikes, nonExistingId, blogsInDd
