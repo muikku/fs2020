@@ -25,10 +25,17 @@ describe('HTTP GET BLOGS', () => {
       .get('/api/blogs')
     expect(response.body[0].id).toBeDefined()
   })
-
 })
 
+describe('HTTP POST BLOGS', () => {
+  test('blogs are returned as json and there is correct amount', async () => {
+    const blog = helper.testBlogNoLikes
+    const response = await api
+      .post('/api/blogs', blog)
+    expect(response.body.length).toBe(helper.initialBlogs.length + 1)
+  })
 
+})
 
 afterAll(() => {
   mongoose.connection.close()
