@@ -48,6 +48,15 @@ describe('HTTP POST BLOGS', () => {
     expect(response.body.likes).toBe(0)
   })
 
+  test('if title is undef, return 400 bad request', async () => {
+
+    const blog = new Blog({ author: 'Tiina Jylhä', url:'https://suomenkuvalehti.fi/jutut/kotimaa/valtio-osti-kiinalaiset-hengityssuojat-ulosottovelkaiselta-liikemiehelta-tiina-jylha-sanoo-miljoonakaupan-kuuluneen-itselleen/'})
+    const response = await api
+      .post('/api/blogs')
+      .send(blog)
+    expect(response.status).toBe(400)
+  })
+
 })
 
 afterAll(() => {
