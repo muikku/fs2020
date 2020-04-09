@@ -5,7 +5,7 @@ const initialBlogs = [
 ]
 
 const nonExistingId = async () => {
-  const blog = new Blog({ author: 'brokkken' })
+  const blog = new Blog({ author: 'brokkken', title:'no id', url:'notactualurl' })
   await blog.save()
   await blog.remove()
 
@@ -17,7 +17,7 @@ const blogsInDd = async () => {
   return blogs.map(blog => blog.toJSON())
 }
 
-const testBlogNoLikes = () => new Blog({ title: 'Weird history of Tiberian Sun series', author: 'The Ancient One' })
+const testBlogNoLikes = () => new Blog({ title: 'Weird history of Tiberian Sun series', author: 'The Ancient One', url: 'https://www.imdb.com/title/tt0078748/' })
 
 module.exports = {
   initialBlogs, testBlogNoLikes, nonExistingId, blogsInDd

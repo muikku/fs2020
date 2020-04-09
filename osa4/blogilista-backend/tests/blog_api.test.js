@@ -44,17 +44,25 @@ describe('HTTP POST BLOGS', () => {
     const response = await api
       .post('/api/blogs')
       .send(blog)
-    console.log(response.body)
     expect(response.body.likes).toBe(0)
   })
 
   test('if title is undef, return 400 bad request', async () => {
 
-    const blog = new Blog({ author: 'Tiina Jylhä', url:'https://suomenkuvalehti.fi/jutut/kotimaa/valtio-osti-kiinalaiset-hengityssuojat-ulosottovelkaiselta-liikemiehelta-tiina-jylha-sanoo-miljoonakaupan-kuuluneen-itselleen/'})
-    const response = await api
+    const blog = new Blog({ author: 'Tiina Jylhä', url:'https://suomenkuvalehti.fi/jutut/kotimaa/valtio-osti-kiinalaiset-hengityssuojat-ulosottovelkaiselta-liikemiehelta-tiina-jylha-sanoo-miljoonakaupan-kuuluneen-itselleen/' })
+    await api
       .post('/api/blogs')
       .send(blog)
-    expect(response.status).toBe(400)
+      .expect(400)
+  })
+
+  test('if url is undef, return 400 bad request', async () => {
+
+    const blog = new Blog({ author: 'Tiina Jylhä', title: 'kyörä' })
+    await api
+      .post('/api/blogs')
+      .send(blog)
+      .expect(400)
   })
 
 })
