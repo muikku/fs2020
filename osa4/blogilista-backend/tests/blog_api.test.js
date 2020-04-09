@@ -38,6 +38,16 @@ describe('HTTP POST BLOGS', () => {
     expect(blogsNow.map(b => b.title)).toContain(helper.testBlogNoLikes().title)
   })
 
+  test('if likes has no value, its value becomes 0', async () => {
+
+    const blog = helper.testBlogNoLikes()
+    const response = await api
+      .post('/api/blogs')
+      .send(blog)
+    console.log(response.body)
+    expect(response.body.likes).toBe(0)
+  })
+
 })
 
 afterAll(() => {
