@@ -1,0 +1,29 @@
+@url = http://localhost:3003/api/blogs
+
+GET {{url}}
+
+###
+POST {{url}}
+Content-Type: application/json
+
+{
+    "title": "Testing is very nice.",
+    "author": "Muikku",
+    "url": "https://fullstackopen.com/osa4/sovelluksen_rakenne_ja_testauksen_alkeet",
+    "likes": 508
+}
+
+###
+
+DELETE {{url}}/5e8ef140e7523a3188f6a2de
+
+###
+PUT {{url}}/5e8f558073c43d5643ea01de
+Content-Type: application/json
+
+{
+    "title": "Testing is very nice.",
+    "author": "Muikku",
+    "url": "https://fullstackopen.com/osa4/sovelluksen_rakenne_ja_testauksen_alkeet",
+    "likes": 5099
+}
