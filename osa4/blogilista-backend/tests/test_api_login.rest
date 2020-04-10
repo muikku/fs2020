@@ -1,0 +1,9 @@
+@url = http://localhost:3003/api/login
+
+POST {{url}}
+Content-Type: application/json
+
+{
+    "username": "BlogaajaPoju",
+    "password": "B3m4rikuningas"
+}
