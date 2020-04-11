@@ -4,7 +4,7 @@ POST {{url}}
 Content-Type: application/json
 
 {
-    "username": "32sdfdfsdf",
+    "username": "muikkukoodaa",
     "name": "Ea Poikki",
     "password": "deadmouse3"
 }

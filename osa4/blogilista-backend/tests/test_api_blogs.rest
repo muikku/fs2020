@@ -5,13 +5,14 @@ GET {{url}}
 ###
 POST {{url}}
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im11aWtrdWtvb2RhYSIsImlkIjoiNWU5MjAyNWIyYTkzNzg1NGNkMDg1YTUxIiwiaWF0IjoxNTg2NjI4Njg2fQ.TK2RexbHZUHjP8-cr2UOZQh7_R25QMlf-GkM6PpmU-I
 
 {
     "title": "Testing is very nice.",
     "author": "Muikku",
     "url": "https://fullstackopen.com/osa4/sovelluksen_rakenne_ja_testauksen_alkeet",
     "likes": 508,
-    "userId": "5e918f7870d6602227f5d150"
+    "userId": "5e92025b2a937854cd085a51"
 }
 
 ###
