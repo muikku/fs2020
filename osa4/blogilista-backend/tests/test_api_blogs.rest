@@ -10,7 +10,8 @@ Content-Type: application/json
     "title": "Testing is very nice.",
     "author": "Muikku",
     "url": "https://fullstackopen.com/osa4/sovelluksen_rakenne_ja_testauksen_alkeet",
-    "likes": 508
+    "likes": 508,
+    "userId": "5e918f7870d6602227f5d150"
 }
 
 ###
