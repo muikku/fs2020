@@ -28,8 +28,6 @@ blogRouter.post('/', async (request, response) => {
     user: user._id
   })
   const savedBlog = await blog.save()
-  /* onko tämä turha?
-  await savedBlog.populate('user', { username: 1, name: 1, id: 1 }) */
   user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
 
@@ -49,7 +47,17 @@ blogRouter.put('/:id', async (request, response) => {
 })
 
 blogRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id)
+  const token = request.token
+
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if(!token || !decodedToken.id){
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+  const user = await User.findById(decodedToken.id)
+  const blog = await Blog.findById(request.params.id)
+  if(user._id.toString() === blog.user.toString()){
+    await Blog.findByIdAndRemove(request.params.id)
+  }
   response.status(204).end()
 })
 
