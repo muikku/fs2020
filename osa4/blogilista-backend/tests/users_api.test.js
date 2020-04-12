@@ -4,6 +4,7 @@ const User = require('../models/user')
 const helper = require('./test_helper')
 const app = require('../App')
 const api = supertest(app)
+const mongoose = require('mongoose')
 
 describe('when there is intially one user @ db', () => {
   beforeEach(async () => {
@@ -51,4 +52,10 @@ describe('when there is intially one user @ db', () => {
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toHaveLength(usersAtStart.length)
   })
+
+})
+
+
+afterAll(() => {
+  mongoose.connection.close()
 })

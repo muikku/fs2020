@@ -27,6 +27,7 @@ const usersInDb = async () => {
 
 const newUser = (username, name, password) => new Object({ username, name, password })
 
+
 module.exports = {
   initialBlogs, testBlogNoLikes, nonExistingId, blogsInDd, usersInDb, newUser
 }
