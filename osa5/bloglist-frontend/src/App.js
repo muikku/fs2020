@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
-import Login from './components/LoginForm'
+import LoginForm from './components/LoginForm'
 import Logout from './components/Logout'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -47,7 +47,17 @@ const App = () => {
 
   const handleBlogSubmit = async (event) => {
     event.preventDefault()
-    console.log('do somethign...')
+    try{
+      const blog = await blogService.create({ title, author, url })
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+      setBlogs(blogs.concat(blog))
+      ///message
+    } catch(error){
+      console.log(error)
+      ///message
+    }
   }
 
   const logoutPushed = () => {
@@ -60,7 +70,7 @@ const App = () => {
       <h2>blogs</h2>
       {!user
         ? (
-          <Login
+          <LoginForm
             handleSubmit={handleLogin}
             username={username}
             password={password}

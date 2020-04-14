@@ -5,7 +5,7 @@ const BlogForm = ({
   title,
   author,
   url,
-  handleAuthordChange,
+  handleAuthorChange,
   handleTitleChange,
   handleUrlChange
 }) => {
@@ -26,7 +26,7 @@ const BlogForm = ({
           type='text'
           value={author}
           name="Password"
-          onChange={handleAuthordChange}
+          onChange={handleAuthorChange}
         />
       </div>
       <div>
