@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
-import Login from './components/Login'
+import Login from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -12,16 +12,14 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    blogService.getAll().then((blogs) => setBlogs(blogs))
   }, [])
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    try{
+    try {
       const user = await loginService.login({
-        username, password
+        username, password,
       })
       setUser(user)
       setUsername('')
@@ -33,17 +31,22 @@ const App = () => {
 
   return (
     <div>
-      <Login 
-      handleSubmit={handleLogin} 
-      username={username} 
-      password={password} 
-      handleUsernameChange={({target}) => setUsername(target.value)}
-      handlePasswordChange={({target}) => setPassword(target.value)}
-      />
       <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
+      {!user
+        ? (
+          <Login
+            handleSubmit={handleLogin}
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+          />
+        )
+        : (
+          <>
+            {blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
+          </>
+        )}
     </div>
   )
 }
