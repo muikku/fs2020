@@ -5,6 +5,7 @@ import LoginForm from './components/LoginForm'
 import Logout from './components/Logout'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from './components/Notification'
 
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [user, setUser] = useState(null)
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -41,7 +43,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      console.log(exception)
+      notify('wrong username or password')
     }
   }
 
@@ -53,10 +55,9 @@ const App = () => {
       setAuthor('')
       setUrl('')
       setBlogs(blogs.concat(blog))
-      ///message
+      notify(`a new blog ${blog.title} by ${blog.author} added`)
     } catch(error){
-      console.log(error)
-      ///message
+      notify('there was a problem, could not add blog')
     }
   }
 
@@ -65,9 +66,18 @@ const App = () => {
     window.localStorage.removeItem('loggedUser')
   }
 
+  const notify = (message) => {
+    clearTimeout()
+    setNotification(message)
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+  }
+
   return (
     <div>
       <h2>blogs</h2>
+      {notification && <Notification message={notification}/>}
       {!user
         ? (
           <LoginForm
