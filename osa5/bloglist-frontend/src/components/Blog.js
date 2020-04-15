@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 import React, { useState } from 'react'
 
-const Blog = ({ blog, handleLike }) => {
+const Blog = ({ blog, handleLike, handleDelete, user }) => {
   const [visible, setVisible] = useState(false)
   const toggle = () => setVisible(!visible)
   const enlarged = { display: visible ? '' : 'none',  paddingTop: 10,
@@ -14,6 +14,14 @@ const Blog = ({ blog, handleLike }) => {
     const likedBlog = { ...blog, likes: blog.likes + 1 }
     handleLike(likedBlog)
   }
+  const deletePushed = () => {
+    if(window.confirm(`You are about to delete ${blog.title} by ${blog.author}`)){
+      handleDelete(blog)
+    }
+  }
+
+  const canDelete = () => blog.user.length > 0 ? blog.user[0].username === user.username : true
+
   return(
     <>
       <div onClick={toggle} style={shrunken}>{`${blog.title}  ${blog.author}`}</div>
@@ -22,6 +30,7 @@ const Blog = ({ blog, handleLike }) => {
         <div>{blog.url}</div>
         <div>{blog.likes} <button onClick={likePushed}>like</button></div>
         <div>{blog.author}</div>
+        {canDelete() && <button onClick={deletePushed}>remove</button>}
       </div>
     </>
   )

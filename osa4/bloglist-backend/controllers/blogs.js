@@ -8,7 +8,6 @@ blogRouter.get('/', async (request, response) => {
   const allBlogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
   response.json(allBlogs.map(blog => blog.toJSON()))
 })
-          
 
 blogRouter.post('/', async (request, response) => {
   const body = request.body
@@ -54,10 +53,12 @@ blogRouter.delete('/:id', async (request, response) => {
   }
   const user = await User.findById(decodedToken.id)
   const blog = await Blog.findById(request.params.id)
-  if(user._id.toString() === blog.user.toString()){
+  if(blog.user.length === 0 || user._id.toString() === blog.user.toString()){
     await Blog.findByIdAndRemove(request.params.id)
+    return response.status(204).end()
+  } else {
+    return response.status(401).json({ error: 'unauthorized' })
   }
-  response.status(204).end()
 })
 
 module.exports = blogRouter

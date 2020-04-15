@@ -65,6 +65,16 @@ const App = () => {
     }
   }
 
+  const handleDeleting = async (obj) => {
+    try{
+      await blogService.remove(obj.id)
+      setBlogs(blogs.filter(b => b.id !== obj.id))
+      notify(`${obj.title} deleted!`)
+    } catch(error){
+      notify(`an error occured when deleting ${obj.title}`)
+    }
+  }
+
   const logoutPushed = () => {
     setUser(null)
     window.localStorage.removeItem('loggedUser')
@@ -104,7 +114,13 @@ const App = () => {
             </Togglable>
             <div>
               {blogs.sort((a, b) => b.likes - a.likes).map((blog) =>
-                <Blog key={blog.id} blog={blog} handleLike={handleLiking} />
+                <Blog
+                  key={blog.id}
+                  blog={blog}
+                  handleLike={handleLiking}
+                  handleDelete={handleDeleting}
+                  user={user}
+                />
               )}
             </div>
           </>
