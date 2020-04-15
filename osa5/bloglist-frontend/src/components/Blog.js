@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 import React, { useState } from 'react'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, handleLike }) => {
   const [visible, setVisible] = useState(false)
   const toggle = () => setVisible(!visible)
   const enlarged = { display: visible ? '' : 'none',  paddingTop: 10,
@@ -10,13 +10,17 @@ const Blog = ({ blog }) => {
     borderWidth: 1,
     marginBottom: 5 }
   const shrunken = { display: visible ? 'none' : '' }
+  const likePushed = () => {
+    const likedBlog = { ...blog, likes: blog.likes + 1 }
+    handleLike(likedBlog)
+  }
   return(
     <>
       <div onClick={toggle} style={shrunken}>{`${blog.title}  ${blog.author}`}</div>
       <div style={enlarged}>
         <div>{blog.title}<button onClick={toggle}>hide</button></div>
         <div>{blog.url}</div>
-        <div>{blog.likes} <button>like</button></div>
+        <div>{blog.likes} <button onClick={likePushed}>like</button></div>
         <div>{blog.author}</div>
       </div>
     </>

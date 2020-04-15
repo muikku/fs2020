@@ -55,6 +55,16 @@ const App = () => {
     }
   }
 
+  const handleLiking = async (obj) => {
+    try{
+      const updatedBlog = await blogService.update(obj.id, obj)
+      setBlogs(blogs.map(b => b.id === updatedBlog.id ? updatedBlog : b))
+      notify(`${updatedBlog.title} + 1 like!`)
+    } catch(error){
+      notify(`there was error liking blog ${obj.title}`)
+    }
+  }
+
   const logoutPushed = () => {
     setUser(null)
     window.localStorage.removeItem('loggedUser')
@@ -72,6 +82,7 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       {notification && <Notification message={notification}/>}
+
       {!user
         ? (
 
@@ -93,7 +104,7 @@ const App = () => {
             </Togglable>
             <div>
               {blogs.map((blog) =>
-                <Blog key={blog.id} blog={blog} />
+                <Blog key={blog.id} blog={blog} handleLike={handleLiking} />
               )}
             </div>
           </>
