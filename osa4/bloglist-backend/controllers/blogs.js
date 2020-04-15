@@ -8,7 +8,7 @@ blogRouter.get('/', async (request, response) => {
   const allBlogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
   response.json(allBlogs.map(blog => blog.toJSON()))
 })
-
+          
 
 blogRouter.post('/', async (request, response) => {
   const body = request.body
