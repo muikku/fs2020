@@ -4,10 +4,13 @@ import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
 
 describe('<Blog />', () => {
+  let mockHandler = jest.fn()
   let component
   beforeEach(() => {
     component = render(
-      <Blog blog={{ author: 'author', title: 'title', url: 'url', likes: 0 }}
+      <Blog
+        blog={{ author: 'author', title: 'title', url: 'url', likes: 0 }}
+        handleLike={mockHandler}
       />
     )
   })
@@ -28,4 +31,10 @@ describe('<Blog />', () => {
     expect(mini).toHaveTextContent('0')
   })
 
+  test('when like button is clicked twise, eventhandler is called twise', () => {
+    const button = component.getByText('like')
+    fireEvent.click(button)
+    fireEvent.click(button)
+    expect(mockHandler.mock.calls).toHaveLength(2)
+  })
 })
