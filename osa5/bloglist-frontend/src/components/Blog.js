@@ -20,12 +20,18 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
     }
   }
 
-  const canDelete = () => blog.user.length > 0 ? blog.user[0].username === user.username : true
+  const canDelete = () => {
+    if(user && blog.user){
+      blog.user.length > 0 ? blog.user[0].username === user.username : true
+    } else {
+      return false
+    }
+  }
 
   return(
     <>
-      <div onClick={toggle} style={shrunken}>{`${blog.title}  ${blog.author}`}</div>
-      <div style={enlarged}>
+      <div className="minimized" onClick={toggle} style={shrunken}>{`${blog.title}  ${blog.author}`}</div>
+      <div className='maximized' style={enlarged}>
         <div>{blog.title}<button onClick={toggle}>hide</button></div>
         <div>{blog.url}</div>
         <div>{blog.likes} <button onClick={likePushed}>like</button></div>
