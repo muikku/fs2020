@@ -30,7 +30,7 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
 
   return(
     <>
-      <div className="minimized" onClick={toggle} style={shrunken}>{`${blog.title}  ${blog.author}`}</div>
+      <div className='minimized' onClick={toggle} style={shrunken}>{`${blog.title}  ${blog.author}`}</div>
       <div className='maximized' style={enlarged}>
         <div>{blog.title}<button onClick={toggle}>hide</button></div>
         <div>{blog.url}</div>

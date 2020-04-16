@@ -1,6 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
 
 describe('<Blog />', () => {
@@ -18,6 +18,14 @@ describe('<Blog />', () => {
     expect(mini).toHaveTextContent('title')
     expect(mini).not.toHaveTextContent('url')
     expect(mini).not.toHaveTextContent('0')
+  })
+
+  test('when blog is clicked, its shows likes and url', () => {
+    const button = component.container.querySelector('.minimized')
+    fireEvent.click(button)
+    const mini = component.container.querySelector('.maximized')
+    expect(mini).toHaveTextContent('url')
+    expect(mini).toHaveTextContent('0')
   })
 
 })
