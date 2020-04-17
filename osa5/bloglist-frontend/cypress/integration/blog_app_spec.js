@@ -42,10 +42,37 @@ describe('Blog app', function() {
       beforeEach(function(){
         cy.createBlog({ title: 'test_title', author:'test_author', url:'test_url' })
       })
-      it.only('A can be liked', function(){
+      it('A can be liked', function(){
         cy.contains('test_title').click()
         cy.contains('test_title').parent().find('#blogLikeButton').click()
         cy.contains('likes 1')
+      })
+    })
+
+    describe('...and many blogs are posted', function(){
+      beforeEach(function(){
+        for (let a = 0; a < 4; a++) {
+          cy.createBlog({
+            title: `test_title_${a}`,
+            author:`test_author_${a}`,
+            url: `test_url_${a}`
+          })
+        }
+      })
+      it('Blogs are ordered by likes', function(){
+        for (let a = 0; a < 4; a++) {
+          cy.contains(`test_author_${a}`).click()
+        }
+        for (let a = 0; a < 4; a++) {
+          for (let b = 0; b < a; b++) {
+            cy.contains(`test_author_${a}`).parent().find('#blogLikeButton').click()
+            cy.wait(500)
+            ///there is some flakyness here...
+          }
+        }
+        for (let a = 0; a < 4; a++) {
+          cy.get('#blogs').find('.blog').eq(a).contains(`likes ${3 - a}`)
+        }
       })
     })
   })

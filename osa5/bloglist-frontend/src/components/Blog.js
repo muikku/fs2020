@@ -29,16 +29,16 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
   }
 
   return(
-    <>
+    <div className='blog'>
       <div className='minimized' onClick={toggle} style={shrunken}>{`${blog.title}  ${blog.author}`}</div>
       <div className='maximized' style={enlarged}>
         <div>{blog.title}<button onClick={toggle}>hide</button></div>
         <div>{blog.url}</div>
-        <div>likes {blog.likes} <button id='blogLikeButton' onClick={likePushed}>like</button></div>
+        <div id='blogLikes'>likes {blog.likes} <button id='blogLikeButton' onClick={likePushed}>like</button></div>
         <div>{blog.author}</div>
         {canDelete() && <button id='blogDeleteButton' onClick={deletePushed}>remove</button>}
       </div>
-    </>
+    </div>
   )
 }
 
