@@ -34,9 +34,9 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
       <div className='maximized' style={enlarged}>
         <div>{blog.title}<button onClick={toggle}>hide</button></div>
         <div>{blog.url}</div>
-        <div>{blog.likes} <button onClick={likePushed}>like</button></div>
+        <div>likes {blog.likes} <button id='blogLikeButton' onClick={likePushed}>like</button></div>
         <div>{blog.author}</div>
-        {canDelete() && <button onClick={deletePushed}>remove</button>}
+        {canDelete() && <button id='blogDeleteButton' onClick={deletePushed}>remove</button>}
       </div>
     </>
   )
