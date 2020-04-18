@@ -42,10 +42,24 @@ describe('Blog app', function() {
       beforeEach(function(){
         cy.createBlog({ title: 'test_title', author:'test_author', url:'test_url' })
       })
-      it('A can be liked', function(){
+      it('...it can be liked', function(){
         cy.contains('test_title').click()
         cy.contains('test_title').parent().find('#blogLikeButton').click()
         cy.contains('likes 1')
+      })
+      it('...it can be deleted', function(){
+        cy.contains('test_title').click()
+        cy.contains('test_title').parent().find('#blogDeleteButton').click()
+        cy.on('window:confirm', (str) => {
+          expect(str).to.eq('You are about to delete test_title by test_author')
+        })
+        cy.get('.error').should('contain', 'test_title deleted!')
+      })
+      it('...it can be deleted only by owner', function(){
+        cy.request('POST', `${api}/users/`, { username: 'Mark III', name: 'Ase', password: 'todellahyvä' })
+        cy.login({ username: 'Mark III', password: 'todellahyvä' })
+        cy.contains('test_title').click()
+        cy.get('#blogDeleteButton').should('not.exist')
       })
     })
 
