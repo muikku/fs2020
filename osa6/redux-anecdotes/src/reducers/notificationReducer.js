@@ -16,7 +16,7 @@ export const addNote = (message) => {
     }
 }
 
-export const clear = (message) => {
+export const clear = () => {
     return {
         type: 'CLEAR'
     }
