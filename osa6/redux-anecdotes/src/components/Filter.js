@@ -3,9 +3,8 @@ import { useDispatch } from 'react-redux'
 import { addFilter } from '../reducers/filterReducer'
 
 const Filter = () => {
-    const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const handleChange = (event) => {
-    // input-kentän arvo muuttujassa event.target.value
     dispatch(addFilter(event.target.value))
   }
   const style = {

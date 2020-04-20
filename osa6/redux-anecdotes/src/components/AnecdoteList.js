@@ -5,7 +5,11 @@ import React from 'react'
 
 
 const AnecdoteList = () => {
-  const anecdotes = useSelector(state => state.anecdotes.sort((a, b) => b.votes - a.votes))
+  let anecdotes = useSelector(state => state.anecdotes.sort((a, b) => b.votes - a.votes))
+  const filter = useSelector(state => state.filter)
+  if(filter !== ''){
+    anecdotes = anecdotes.filter(a => a.content.toLowerCase().includes(filter.toLowerCase()))
+  }
   const dispatch = useDispatch()
 
   const vote = (id, content) => {
