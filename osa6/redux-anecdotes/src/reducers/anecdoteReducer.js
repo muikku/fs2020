@@ -6,8 +6,8 @@ const reducer = (state = [], action) => {
       return state.concat(action.data)
 
     case 'VOTE':
-      const find = state.find(a => a.id === action.data.id)
-      return state.map(a => a.id === action.data.id ? { ...find, votes: find.votes + 1 } : a)
+      const found = state.find(a => a.id === action.data)
+      return state.map(a => a.id === action.data ? { ...found, votes: found.votes + 1 } : a)
 
     case 'INIT_ANECDOTES':
       return action.data
@@ -17,10 +17,13 @@ const reducer = (state = [], action) => {
   }
 }
 
-export const anecdoteVote = (id) => {
-  return {
+export const anecdoteVote = (anecdote) => {
+  return async dispatch => {
+    await anecdoteService.update(anecdote.id, {...anecdote, votes: anecdote.votes + 1})
+    dispatch({
     type: 'VOTE',
-    data: { id }
+    data: anecdote.id
+    })
   }
 }
 
