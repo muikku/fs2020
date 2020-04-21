@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
+import AnecdoteList from './components/AnecdoteList'
+import Anecdote from './components/Anecdote'
 
 const Menu = () => {
   const padding = {
@@ -8,20 +10,13 @@ const Menu = () => {
   return (
     <div>
       <Link style={padding} to="/">anecdotes</Link>
-      <Link style={padding} to="/create-new">create new</Link>
+      <Link style={padding} to="/create">create new</Link>
       <Link style={padding} to="/about">about</Link>
     </div>
   )
 }
 
-const AnecdoteList = ({ anecdotes }) => (
-  <div>
-    <h2>Anecdotes</h2>
-    <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
-    </ul>
-  </div>
-)
+
 
 const About = () => (
   <div>
@@ -131,8 +126,11 @@ const App = () => {
         <Route path="/about">
           <About />
         </Route>
-        <Route path="/create-new">
+        <Route path="/create">
           <CreateNew addNew={addNew} />
+        </Route>
+        <Route path="/anecdotes/:id">
+          <Anecdote anecdotes={anecdotes}/>
         </Route>
         <Route path="/">
           <AnecdoteList anecdotes={anecdotes} />
