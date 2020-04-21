@@ -9,19 +9,22 @@ const reducer = (state = null, action) => {
     }
 }
 
-export const addNote = (message, time) => {
+export const addNotification = (message, time) => {
     return dispatch => {
         dispatch({
              type: 'ADD',
              data: { message }
         })
-        setTimeout(() => {
+        clearTimeout(messageTimeout)
+        messageTimeout = setTimeout(() => {
             dispatch({
                 type: 'CLEAR'
             })
         }, time * 1000)
     }
 }
+
+let messageTimeout
 
 export default reducer
 

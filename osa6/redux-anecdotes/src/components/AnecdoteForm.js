@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { anecdoteCreate } from '../reducers/anecdoteReducer'
-import { addNote } from '../reducers/notificationReducer'
+import { addNotification } from '../reducers/notificationReducer'
 
 const AnecdoteForm = (props) => {
     const createAnecdote = async (event) => {
@@ -29,7 +29,7 @@ const connectedForm = connect(
   null,
   {
     anecdoteCreate,
-    addNote
+    addNote: addNotification
   }
 )(AnecdoteForm)
 

@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { anecdoteVote } from '../reducers/anecdoteReducer'
-import { addNote } from '../reducers/notificationReducer'
+import { addNotification } from '../reducers/notificationReducer'
 import React from 'react'
 
 
@@ -14,7 +14,7 @@ const AnecdoteList = () => {
 
   const vote = async (anecdote) => {
     dispatch(anecdoteVote(anecdote))    
-    dispatch(addNote(`you voted '${anecdote.content}'`, 5))
+    dispatch(addNotification(`you voted '${anecdote.content}'`, 5))
   }
     return (
         <div>
