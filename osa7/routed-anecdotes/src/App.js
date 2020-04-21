@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom'
 import AnecdoteList from './components/AnecdoteList'
 import Anecdote from './components/Anecdote'
+import CreateNew from './components/AnecdoteForm'
+import Notification from './components/Notification'
 
 const Menu = () => {
   const padding = {
@@ -40,44 +42,7 @@ const Footer = () => (
   </div>
 )
 
-const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
 
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    props.addNew({
-      content,
-      author,
-      info,
-      votes: 0
-    })
-  }
-
-  return (
-    <div>
-      <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
-        </div>
-        <div>
-          author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
-        </div>
-        <div>
-          url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
-        </div>
-        <button>create</button>
-      </form>
-    </div>
-  )
-
-}
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -102,6 +67,10 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`a new anecdote ${anecdote.content} created!`)
+    setTimeout(() => {
+      setNotification(null)
+    }, 10000)
   }
 
   const anecdoteById = (id) =>
@@ -122,6 +91,7 @@ const App = () => {
     <Router>
       <h1>Software anecdotes</h1>
       <Menu />
+      <Notification message={notification}/>
       <Switch>
         <Route path="/about">
           <About />
