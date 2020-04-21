@@ -20,6 +20,12 @@ const CreateNew = (props) => {
       })
       history.push("/")
     }
+
+    const clearFields = () => {
+      content.onClick()
+      author.onClick()
+      info.onClick()
+    }
   
     return (
       <div>
@@ -37,8 +43,10 @@ const CreateNew = (props) => {
             url for more info
             <input {...info} />
           </div>
-          <button>create</button>
+          <input type="submit" value="create" />
+          <button type="button" onClick={clearFields}>reset</button>
         </form>
+        
       </div>
     )
   }
