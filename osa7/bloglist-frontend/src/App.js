@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
@@ -7,6 +8,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
+import { notify } from './reducers/notificationReducer'
 
 
 const App = () => {
@@ -14,7 +16,8 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [notification, setNotification] = useState(null)
+  const dispatch = useDispatch()
+
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -40,8 +43,9 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+      dispatch(notify('Welcome!'), 5)
     } catch (exception) {
-      notify('wrong username or password')
+      dispatch(notify('wrong username or password'), 5)
     }
   }
 
@@ -49,9 +53,9 @@ const App = () => {
     try{
       const blog = await blogService.create(obj)
       setBlogs(blogs.concat(blog))
-      notify(`a new blog ${blog.title} by ${blog.author} added`)
+      dispatch(notify(`a new blog ${blog.title} by ${blog.author} added`), 5)
     } catch(error){
-      notify('there was a problem, could not add blog')
+      dispatch(notify('there was a problem, could not add blog'), 5)
     }
   }
 
@@ -59,9 +63,9 @@ const App = () => {
     try{
       const updatedBlog = await blogService.update(obj.id, obj)
       setBlogs(blogs.map(b => b.id === updatedBlog.id ? updatedBlog : b))
-      notify(`${updatedBlog.title} + 1 like!`)
+      dispatch(notify(`${updatedBlog.title} + 1 like!`), 5)
     } catch(error){
-      notify(`there was error liking blog ${obj.title}`)
+      dispatch(notify(`there was error liking blog ${obj.title}`), 5)
     }
   }
 
@@ -69,9 +73,9 @@ const App = () => {
     try{
       await blogService.remove(obj.id)
       setBlogs(blogs.filter(b => b.id !== obj.id))
-      notify(`${obj.title} deleted!`)
+      dispatch(notify(`${obj.title} deleted!`), 5)
     } catch(error){
-      notify(`an error occured when deleting ${obj.title}`)
+      dispatch(notify(`an error occured when deleting ${obj.title}`), 5)
     }
   }
 
@@ -80,18 +84,11 @@ const App = () => {
     window.localStorage.removeItem('loggedUser')
   }
 
-  const notify = (message) => {
-    clearTimeout()
-    setNotification(message)
-    setTimeout(() => {
-      setNotification(null)
-    }, 5000)
-  }
-
   return (
     <div>
       <h2>blogs</h2>
-      {notification && <Notification message={notification}/>}
+
+      <Notification />
 
       {!user
         ? (
