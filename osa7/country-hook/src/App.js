@@ -23,8 +23,7 @@ const useCountry = (name) => {
     .get(`https://restcountries.eu/rest/v2/name/${name}?fullText=true`)
     .then(res => {
       const data = res.data[0]
-      if(data.name && data.name === name){
-
+      if(data.name){
         setCountry({data: res.data[0], found: true})
       } else {
       setCountry({found: false})
