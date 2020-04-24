@@ -3,7 +3,6 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 
 import notificationReducer from './reducers/notificationReducer'
-///import reducers
 
 
 const reducer = combineReducers({

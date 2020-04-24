@@ -1,7 +1,7 @@
 const reducer = (state = null, action) => {
-  switch(action.type){
-  case 'SET_MESSAGE':
-    return action.data
+  switch(action.type) {
+  case 'ADD_MESSAGE':
+    return action.data.message
   case 'CLEAR_MESSAGE':
     return null
   default:
@@ -9,21 +9,21 @@ const reducer = (state = null, action) => {
   }
 }
 
-export const notify = (message, secs) => {
-  return  dispatch => {
+export const notify = (message, time) => {
+  return dispatch => {
     dispatch({
-      type: 'SET_MESSAGE',
-      data: message
+      type: 'ADD_MESSAGE',
+      data: { message }
     })
-    clearTimeout(hideTimer)
-    hideTimer = setTimeout(() => {
+    clearTimeout(messageTimeout)
+    messageTimeout = setTimeout(() => {
       dispatch({
         type: 'CLEAR_MESSAGE'
       })
-    }, secs * 10000)
+    }, time * 1000)
   }
 }
 
-let hideTimer
+let messageTimeout
 
 export default reducer

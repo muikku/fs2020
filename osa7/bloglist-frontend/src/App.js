@@ -43,9 +43,9 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-      dispatch(notify('Welcome!'), 5)
+      dispatch(notify('Welcome!', 5))
     } catch (exception) {
-      dispatch(notify('wrong username or password'), 5)
+      dispatch(notify('wrong username or password', 5))
     }
   }
 
@@ -53,9 +53,9 @@ const App = () => {
     try{
       const blog = await blogService.create(obj)
       setBlogs(blogs.concat(blog))
-      dispatch(notify(`a new blog ${blog.title} by ${blog.author} added`), 5)
+      dispatch(notify(`a new blog ${blog.title} by ${blog.author} added`, 5))
     } catch(error){
-      dispatch(notify('there was a problem, could not add blog'), 5)
+      dispatch(notify('there was a problem, could not add blog', 5))
     }
   }
 
@@ -63,9 +63,9 @@ const App = () => {
     try{
       const updatedBlog = await blogService.update(obj.id, obj)
       setBlogs(blogs.map(b => b.id === updatedBlog.id ? updatedBlog : b))
-      dispatch(notify(`${updatedBlog.title} + 1 like!`), 5)
+      dispatch(notify(`${updatedBlog.title} + 1 like!`, 5))
     } catch(error){
-      dispatch(notify(`there was error liking blog ${obj.title}`), 5)
+      dispatch(notify(`there was error liking blog ${obj.title}`, 5))
     }
   }
 
@@ -73,9 +73,9 @@ const App = () => {
     try{
       await blogService.remove(obj.id)
       setBlogs(blogs.filter(b => b.id !== obj.id))
-      dispatch(notify(`${obj.title} deleted!`), 5)
+      dispatch(notify(`${obj.title} deleted!`, 5))
     } catch(error){
-      dispatch(notify(`an error occured when deleting ${obj.title}`), 5)
+      dispatch(notify(`an error occured when deleting ${obj.title}`, 5))
     }
   }
 
