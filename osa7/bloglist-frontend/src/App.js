@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
@@ -9,19 +9,21 @@ import loginService from './services/login'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import { notify } from './reducers/notificationReducer'
+import { initializeBlogs, createBlog, likeBlog, removeBlog } from './reducers/blogReducer'
+
 
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const dispatch = useDispatch()
+  const blogs = useSelector(state => state.blogs)
 
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -51,9 +53,8 @@ const App = () => {
 
   const handleBlogSubmit = async (obj) => {
     try{
-      const blog = await blogService.create(obj)
-      setBlogs(blogs.concat(blog))
-      dispatch(notify(`a new blog ${blog.title} by ${blog.author} added`, 5))
+      dispatch(createBlog(obj))
+      dispatch(notify(`a new blog ${obj.title} by ${obj.author} added`, 5))
     } catch(error){
       dispatch(notify('there was a problem, could not add blog', 5))
     }
@@ -61,9 +62,8 @@ const App = () => {
 
   const handleLiking = async (obj) => {
     try{
-      const updatedBlog = await blogService.update(obj.id, obj)
-      setBlogs(blogs.map(b => b.id === updatedBlog.id ? updatedBlog : b))
-      dispatch(notify(`${updatedBlog.title} + 1 like!`, 5))
+      dispatch(likeBlog(obj))
+      dispatch(notify(`${obj.title} + 1 like!`, 5))
     } catch(error){
       dispatch(notify(`there was error liking blog ${obj.title}`, 5))
     }
@@ -71,8 +71,7 @@ const App = () => {
 
   const handleDeleting = async (obj) => {
     try{
-      await blogService.remove(obj.id)
-      setBlogs(blogs.filter(b => b.id !== obj.id))
+      dispatch(removeBlog(obj.id))
       dispatch(notify(`${obj.title} deleted!`, 5))
     } catch(error){
       dispatch(notify(`an error occured when deleting ${obj.title}`, 5))
