@@ -1,22 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Logout from './components/Logout'
-import blogService from './services/blogs'
-import loginService from './services/login'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import { notify } from './reducers/notificationReducer'
 import { initializeBlogs, createBlog, likeBlog, removeBlog } from './reducers/blogReducer'
-import { login, loginFromLocalStorage, logout } from './reducers/loginReducer'
+import { loginFromLocalStorage, logout } from './reducers/loginReducer'
 
 
 
 const App = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const dispatch = useDispatch()
   const blogs = useSelector(state => state.blogs)
   const user = useSelector(state => state.login)
@@ -31,19 +27,7 @@ const App = () => {
     if(loggedUserJSON){
       dispatch(loginFromLocalStorage(loggedUserJSON))
     }
-  },[])
-
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    try {
-      dispatch(login({ username, password }))
-      setUsername('')
-      setPassword('')
-      dispatch(notify('Welcome!', 5))
-    } catch (exception) {
-      dispatch(notify('wrong username or password', 5))
-    }
-  }
+  },[dispatch])
 
   const handleBlogSubmit = async (obj) => {
     try{
@@ -86,11 +70,6 @@ const App = () => {
         ? (
 
           <LoginForm
-            handleSubmit={handleLogin}
-            username={username}
-            password={password}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
           />
         )
         : (
