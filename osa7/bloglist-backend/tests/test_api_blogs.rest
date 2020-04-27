@@ -1,0 +1,31 @@
+@url = http://localhost:3003/api/blogs
+
+GET {{url}}
+
+###
+POST {{url}}
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik90aGVyIiwiaWQiOiI1ZTk2YzZiOTg1YTU0MDQyNTVlOTFlNzUiLCJpYXQiOjE1ODY5Mzk1OTd9.LNqB7s9OUe6yODkSjNEX6FcLxqIx0bgk10Z55dCADE8
+
+{
+    "title": "This must be deleted.",
+    "author": "Muikku",
+    "url": "https://fullstackopen.com/osa4/sovelluksen_rakenne_ja_testauksen_alkeet",
+    "likes": 508,
+    "userId": "5e92025b2a937854cd085a51"
+}
+
+###
+
+DELETE {{url}}/5e91a0d4716c4641f9c82977
+
+###
+PUT {{url}}/5e8f558073c43d5643ea01de
+Content-Type: application/json
+
+{
+    "title": "Testing is very nice.",
+    "author": "Muikku",
+    "url": "https://fullstackopen.com/osa4/sovelluksen_rakenne_ja_testauksen_alkeet",
+    "likes": 5099
+}
