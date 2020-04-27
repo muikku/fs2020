@@ -1,21 +1,21 @@
 import React from 'react'
-import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { login } from '../reducers/loginReducer'
 import { notify } from '../reducers/notificationReducer'
+import { useField } from '../hooks'
 
 const LoginForm = () => {
   const dispatch = useDispatch()
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const username = useField('text')
+  const password = useField('password')
 
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      dispatch(login({ username, password }))
-      setUsername('')
-      setPassword('')
+      dispatch(login({ username: username.value, password: password.value }))
+      username.reset()
+      password.reset()
       dispatch(notify('Welcome!', 5))
     } catch (exception) {
       dispatch(notify('wrong username or password', 5))
@@ -26,21 +26,13 @@ const LoginForm = () => {
       <div>
         username
         <input
-          id='username'
-          type='text'
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
+          {...username}
         />
       </div>
       <div>
         password
         <input
-          id='password'
-          type='text'
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
+          {...password}
         />
       </div>
       <button id='login-button' type="submit">login</button>
