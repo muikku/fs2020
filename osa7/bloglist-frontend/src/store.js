@@ -4,11 +4,12 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 
 import notificationReducer from './reducers/notificationReducer'
 import blogReducer from './reducers/blogReducer'
-
+import loginReducer from './reducers/loginReducer'
 
 const reducer = combineReducers({
   notifications: notificationReducer,
-  blogs: blogReducer
+  blogs: blogReducer,
+  login: loginReducer
 })
 
 const store = createStore(

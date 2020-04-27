@@ -22,7 +22,7 @@ const Blog = ({ blog, handleLike, handleDelete, user }) => {
 
   const canDelete = () => {
     if(user && blog.user){
-      return blog.user.length > 0 ? (blog.user[0].username) === user.username : true
+      return blog.user.length > 0 ? user.blogs === user.username : true
     } else {
       return false
     }

@@ -10,15 +10,16 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import { notify } from './reducers/notificationReducer'
 import { initializeBlogs, createBlog, likeBlog, removeBlog } from './reducers/blogReducer'
+import { login, loginFromLocalStorage, logout } from './reducers/loginReducer'
 
 
 
 const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
   const dispatch = useDispatch()
   const blogs = useSelector(state => state.blogs)
+  const user = useSelector(state => state.login)
 
 
   useEffect(() => {
@@ -28,21 +29,14 @@ const App = () => {
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if(loggedUserJSON){
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogService.setToken(user.token)
+      dispatch(loginFromLocalStorage(loggedUserJSON))
     }
   },[])
 
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      const user = await loginService.login({
-        username, password,
-      })
-      window.localStorage.setItem('loggedUser', JSON.stringify(user))
-      blogService.setToken(user.token)
-      setUser(user)
+      dispatch(login({ username, password }))
       setUsername('')
       setPassword('')
       dispatch(notify('Welcome!', 5))
@@ -79,8 +73,7 @@ const App = () => {
   }
 
   const logoutPushed = () => {
-    setUser(null)
-    window.localStorage.removeItem('loggedUser')
+    dispatch(logout())
   }
 
   return (
