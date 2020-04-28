@@ -3,11 +3,12 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { notify } from '../reducers/notificationReducer'
 import { likeBlog, removeBlog } from '../reducers/blogReducer'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 
 const Blog = () => {
   const id = useParams().id
   const dispatch = useDispatch()
+  const history = useHistory()
   const blogs = useSelector(state => state.blogs)
   const user = useSelector(state => state.login)
   const blog = blogs.find(b => b.id === id)
@@ -32,6 +33,7 @@ const Blog = () => {
       try{
         dispatch(removeBlog(blog.id))
         dispatch(notify(`${blog.title} deleted!`, 5))
+        history.push('/blogs')
       } catch(error){
         dispatch(notify(`an error occured when deleting ${blog.title}`, 5))
       }
