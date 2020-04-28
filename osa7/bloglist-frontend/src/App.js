@@ -9,8 +9,6 @@ import Togglable from './components/Togglable'
 import { initializeBlogs } from './reducers/blogReducer'
 import { loginFromLocalStorage } from './reducers/loginReducer'
 
-
-
 const App = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.login)
