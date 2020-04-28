@@ -34,7 +34,7 @@ const App = () => {
     <BrowserRouter>
       <div>
         <h2>blogs</h2>
-        <Menu />
+
         <Notification />
         {!user
           ? (
@@ -44,7 +44,7 @@ const App = () => {
           )
           : (
             <div>
-              <Logout />
+              <Menu />
               <Switch>
                 <Route path='/blogs/:id'><Blog /></Route>
                 <Route path='/blogs'><BlogList /></Route>

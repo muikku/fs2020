@@ -9,7 +9,7 @@ const Logout = () => {
     dispatch(logout())
   }
   return (
-    <p>{name} logged in {<button onClick={handleLogout}>logout</button>}</p>
+    <>{name} logged in {<button onClick={handleLogout}>logout</button>}</>
   )
 }
 
