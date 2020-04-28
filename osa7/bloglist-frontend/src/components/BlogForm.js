@@ -3,7 +3,7 @@ import { useField } from '../hooks'
 import { useDispatch, useSelector } from 'react-redux'
 import { notify } from '../reducers/notificationReducer'
 import  { createBlog } from '../reducers/blogReducer'
-import { updateUserBlogs } from '../reducers/usersReducer'
+import { updateUserBlogs } from '../reducers/userReducer'
 
 const BlogForm = () => {
   const dispatch = useDispatch()
@@ -24,6 +24,7 @@ const BlogForm = () => {
       dispatch(createBlog(newBlog))
       /*ei toimi vielä*/
       dispatch(updateUserBlogs(user, newBlog))
+      /* */
       dispatch(notify(`a new blog ${newBlog.title} by ${newBlog.author} added`, 5))
     } catch(error){
       dispatch(notify('there was a problem, could not add blog', 5))

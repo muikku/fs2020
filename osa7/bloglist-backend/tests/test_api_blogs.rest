@@ -41,4 +41,4 @@ Content-Type: application/json
 
 ###
 
-GET {{url}}/5e18e8e44462d21672a39e6/comments
+GET {{url}}/all/comments

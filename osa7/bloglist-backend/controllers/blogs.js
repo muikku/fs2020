@@ -76,9 +76,8 @@ blogRouter.post('/:id/comments', async (request, response) => {
   response.json(savedComment.toJSON())
 })
 
-blogRouter.get('/:id/comments', async (request, response) => {
-  const id = request.params.id
-  const comments = await Comment.find({ blogId: id })
+blogRouter.get('/all/comments', async (request, response) => {
+  const comments = await Comment.find({})
   response.json(comments.map(c => c.toJSON()))
 })
 

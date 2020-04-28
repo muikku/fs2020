@@ -8,7 +8,8 @@ import User from './components/User'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import { initializeBlogs } from './reducers/blogReducer'
-import { initializeUsers } from './reducers/usersReducer'
+import { initializeUsers } from './reducers/userReducer'
+import { initializeComments } from './reducers/commentReducer'
 import { loginFromLocalStorage } from './reducers/loginReducer'
 import { BrowserRouter, Route,  Switch } from 'react-router-dom'
 import UserList from './components/UserList'
@@ -20,6 +21,7 @@ const App = () => {
   useEffect(() => {
     dispatch(initializeBlogs())
     dispatch(initializeUsers())
+    dispatch(initializeComments())
   }, [dispatch])
 
   useEffect(() => {

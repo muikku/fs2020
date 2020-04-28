@@ -3,7 +3,9 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { notify } from '../reducers/notificationReducer'
 import { likeBlog, removeBlog } from '../reducers/blogReducer'
+import { createComment } from '../reducers/commentReducer'
 import { useParams, useHistory } from 'react-router-dom'
+import { useField } from '../hooks'
 
 const Blog = () => {
   const id = useParams().id
@@ -11,7 +13,9 @@ const Blog = () => {
   const history = useHistory()
   const blogs = useSelector(state => state.blogs)
   const user = useSelector(state => state.login)
+  const comments = useSelector(state => state.comments.filter(c => c.blogId === id))
   const blog = blogs.find(b => b.id === id)
+  const comment = useField('text')
 
   if(!blog){
     return null
@@ -40,6 +44,20 @@ const Blog = () => {
     }
   }
 
+  const handleCommenting = (event) => {
+    event.preventDefault()
+    try{
+      const newComment = {
+        comment: comment.value
+      }
+      dispatch(createComment(newComment, id))
+      dispatch(notify(`comment posted to ${blog.title}!`, 5))
+      comment.onSubmit()
+    } catch (err) {
+      dispatch(notify('uuh, ooh, couldn\'t add comment :(', 5))
+    }
+  }
+
   const canDelete = () => {
     if(user && blog.user){
       return blog.user.length > 0 ? user.username === blogUser.username : true
@@ -56,6 +74,11 @@ const Blog = () => {
         <div id='blogLikes'>{blog.likes} likes<button id='blogLikeButton' onClick={likePushed}>like</button></div>
         <div>added by {blogUser.name}</div>
         {canDelete() && <button id='blogDeleteButton' onClick={deletePushed}>remove</button>}
+        <div>comments</div>
+        <form onSubmit={handleCommenting}>
+          <input {...comment} /> <button type="submit">add comment</button>
+        </form>
+        {comments.map(c => <div key={c.id}>{c.comment}</div>)}
       </div>
     </div>
   )
