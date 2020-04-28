@@ -13,6 +13,7 @@ import { initializeComments } from './reducers/commentReducer'
 import { loginFromLocalStorage } from './reducers/loginReducer'
 import { BrowserRouter, Route,  Switch } from 'react-router-dom'
 import UserList from './components/UserList'
+import Container from '@material-ui/core/Container'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -32,31 +33,33 @@ const App = () => {
   },[dispatch])
 
   return (
-    <BrowserRouter>
-      <div>
-        <h2>blogs</h2>
+    <Container>
+      <BrowserRouter>
+        <div>
+          <h2>blogs</h2>
 
-        <Notification />
-        {!user
-          ? (
+          <Notification />
+          {!user
+            ? (
 
-            <LoginForm
-            />
-          )
-          : (
-            <div>
-              <Menu />
-              <Switch>
-                <Route path='/blogs/:id'><Blog /></Route>
-                <Route path='/blogs'><BlogList /></Route>
-                <Route path='/create'> <BlogForm /></Route>
-                <Route path='/users/:id'><User /> </Route>
-                <Route path='/users'><UserList/> </Route>
-              </Switch>
-            </div>
-          )}
-      </div>
-    </BrowserRouter>
+              <LoginForm
+              />
+            )
+            : (
+              <div>
+                <Menu />
+                <Switch>
+                  <Route path='/blogs/:id'><Blog /></Route>
+                  <Route path='/blogs'><BlogList /></Route>
+                  <Route path='/create'> <BlogForm /></Route>
+                  <Route path='/users/:id'><User /> </Route>
+                  <Route path='/users'><UserList/> </Route>
+                </Switch>
+              </div>
+            )}
+        </div>
+      </BrowserRouter>
+    </Container>
   )
 }
 
