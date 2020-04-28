@@ -10,14 +10,15 @@ const LoginForm = () => {
   const username = useField('text')
   const password = useField('password')
 
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
       dispatch(login({ username: username.value, password: password.value }))
-      username.reset()
-      password.reset()
-      dispatch(notify('Welcome!', 5))
+      username.onSubmit()
+      password.onSubmit()
     } catch (exception) {
+      console.log(exception)
       dispatch(notify('wrong username or password', 5))
     }
   }
