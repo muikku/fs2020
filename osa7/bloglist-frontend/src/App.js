@@ -8,7 +8,7 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import { notify } from './reducers/notificationReducer'
 import { initializeBlogs, createBlog, likeBlog, removeBlog } from './reducers/blogReducer'
-import { loginFromLocalStorage, logout } from './reducers/loginReducer'
+import { loginFromLocalStorage } from './reducers/loginReducer'
 
 
 
@@ -56,10 +56,6 @@ const App = () => {
     }
   }
 
-  const logoutPushed = () => {
-    dispatch(logout())
-  }
-
   return (
     <div>
       <h2>blogs</h2>
@@ -74,7 +70,7 @@ const App = () => {
         )
         : (
           <>
-            <Logout name={user.name} handleLogout={logoutPushed}/>
+            <Logout />
             <Togglable buttonLabel='new blog'>
               <BlogForm
                 createBlog={handleBlogSubmit}
