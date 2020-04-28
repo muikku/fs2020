@@ -29,3 +29,16 @@ Content-Type: application/json
     "url": "https://fullstackopen.com/osa4/sovelluksen_rakenne_ja_testauksen_alkeet",
     "likes": 5099
 }
+
+###
+
+POST {{url}}/5e918e8e44462d21672a39e6/comments
+Content-Type: application/json
+
+{
+    "comment": "Mahtavaa"
+}
+
+###
+
+GET {{url}}/5e18e8e44462d21672a39e6/comments
