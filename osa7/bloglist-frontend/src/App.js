@@ -7,8 +7,10 @@ import Logout from './components/Logout'
 import Menu from './components/Menu'
 import Notification from './components/Notification'
 import { initializeBlogs } from './reducers/blogReducer'
+import { initializeUsers } from './reducers/usersReducer'
 import { loginFromLocalStorage } from './reducers/loginReducer'
 import { BrowserRouter, Route,  Switch } from 'react-router-dom'
+import UserList from './components/UserList'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -17,6 +19,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeBlogs())
+    dispatch(initializeUsers())
   }, [dispatch])
 
   useEffect(() => {
@@ -31,9 +34,7 @@ const App = () => {
       <div>
         <h2>blogs</h2>
         <Menu />
-
         <Notification />
-
         {!user
           ? (
 
@@ -42,8 +43,9 @@ const App = () => {
           )
           : (
             <Switch>
-              <Route path='/create'> <BlogForm /></Route>
               <Route path='/blogs'><BlogList /></Route>
+              <Route path='/create'> <BlogForm /></Route>
+              <Route path='/users'><UserList/> </Route>
               <Route path='/'><Logout /></Route>
             </Switch>
           )}
