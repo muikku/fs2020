@@ -1,17 +1,17 @@
 import React from 'react'
 import { useField } from '../hooks'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { notify } from '../reducers/notificationReducer'
 import  { createBlog } from '../reducers/blogReducer'
+import { updateUserBlogs } from '../reducers/usersReducer'
 
 const BlogForm = () => {
   const dispatch = useDispatch()
+  const user = useSelector(state => state.login)
 
   const title = useField('text')
   const author = useField('text')
   const url = useField('text')
-
-
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -22,6 +22,8 @@ const BlogForm = () => {
         url: url.value
       }
       dispatch(createBlog(newBlog))
+      /*ei toimi vielä*/
+      dispatch(updateUserBlogs(user, newBlog))
       dispatch(notify(`a new blog ${newBlog.title} by ${newBlog.author} added`, 5))
     } catch(error){
       dispatch(notify('there was a problem, could not add blog', 5))

@@ -5,6 +5,7 @@ import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Logout from './components/Logout'
 import Menu from './components/Menu'
+import User from './components/User'
 import Notification from './components/Notification'
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/usersReducer'
@@ -15,7 +16,6 @@ import UserList from './components/UserList'
 const App = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.login)
-
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -45,6 +45,7 @@ const App = () => {
             <Switch>
               <Route path='/blogs'><BlogList /></Route>
               <Route path='/create'> <BlogForm /></Route>
+              <Route path='/users/:id'><User /> </Route>
               <Route path='/users'><UserList/> </Route>
               <Route path='/'><Logout /></Route>
             </Switch>
