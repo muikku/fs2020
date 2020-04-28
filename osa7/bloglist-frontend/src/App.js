@@ -4,10 +4,11 @@ import BlogList from './components/BlogList'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Logout from './components/Logout'
+import Menu from './components/Menu'
 import Notification from './components/Notification'
-import Togglable from './components/Togglable'
 import { initializeBlogs } from './reducers/blogReducer'
 import { loginFromLocalStorage } from './reducers/loginReducer'
+import { BrowserRouter, Route,  Switch } from 'react-router-dom'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -26,27 +27,28 @@ const App = () => {
   },[dispatch])
 
   return (
-    <div>
-      <h2>blogs</h2>
+    <BrowserRouter>
+      <div>
+        <h2>blogs</h2>
+        <Menu />
 
-      <Notification />
+        <Notification />
 
-      {!user
-        ? (
+        {!user
+          ? (
 
-          <LoginForm
-          />
-        )
-        : (
-          <>
-            <Logout />
-            <Togglable buttonLabel='new blog'>
-              <BlogForm />
-            </Togglable>
-            <BlogList />
-          </>
-        )}
-    </div>
+            <LoginForm
+            />
+          )
+          : (
+            <Switch>
+              <Route path='/create'> <BlogForm /></Route>
+              <Route path='/blogs'><BlogList /></Route>
+              <Route path='/'><Logout /></Route>
+            </Switch>
+          )}
+      </div>
+    </BrowserRouter>
   )
 }
 
