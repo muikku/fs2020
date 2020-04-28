@@ -7,7 +7,7 @@ import Logout from './components/Logout'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import { notify } from './reducers/notificationReducer'
-import { initializeBlogs, createBlog, likeBlog, removeBlog } from './reducers/blogReducer'
+import { initializeBlogs, likeBlog, removeBlog } from './reducers/blogReducer'
 import { loginFromLocalStorage } from './reducers/loginReducer'
 
 
@@ -29,14 +29,7 @@ const App = () => {
     }
   },[dispatch])
 
-  const handleBlogSubmit = async (obj) => {
-    try{
-      dispatch(createBlog(obj))
-      dispatch(notify(`a new blog ${obj.title} by ${obj.author} added`, 5))
-    } catch(error){
-      dispatch(notify('there was a problem, could not add blog', 5))
-    }
-  }
+
 
   const handleLiking = async (obj) => {
     try{
@@ -72,9 +65,7 @@ const App = () => {
           <>
             <Logout />
             <Togglable buttonLabel='new blog'>
-              <BlogForm
-                createBlog={handleBlogSubmit}
-              />
+              <BlogForm />
             </Togglable>
             <div id="blogs">
               {blogs.sort((a, b) => b.likes - a.likes).map((blog) =>
