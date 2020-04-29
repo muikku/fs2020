@@ -1,7 +1,7 @@
 const reducer = (state = null, action) => {
   switch(action.type) {
   case 'ADD_MESSAGE':
-    return action.data.message
+    return action.data
   case 'CLEAR_MESSAGE':
     return null
   default:
@@ -9,18 +9,18 @@ const reducer = (state = null, action) => {
   }
 }
 
-export const notify = (message, time) => {
+export const notify = (message, time, severity) => {
   return dispatch => {
     dispatch({
       type: 'ADD_MESSAGE',
-      data: { message }
+      data: { message, severity: (severity || 'success') }
     })
     clearTimeout(messageTimeout)
     messageTimeout = setTimeout(() => {
       dispatch({
         type: 'CLEAR_MESSAGE'
       })
-    }, time * 1000)
+    }, (time || 5)* 1000)
   }
 }
 
