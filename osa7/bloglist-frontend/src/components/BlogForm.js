@@ -5,6 +5,8 @@ import  { createBlog } from '../reducers/blogReducer'
 import { updateUserBlogs } from '../reducers/userReducer'
 import { TextField, Button } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
+import { notify } from '../reducers/notificationReducer'
+import LoginForm from './LoginForm'
 
 const BlogForm = () => {
   const dispatch = useDispatch()
@@ -27,6 +29,13 @@ const BlogForm = () => {
     /*ei toimi vielä*/
     dispatch(updateUserBlogs(user, newBlog))
     /* */
+  }
+
+  if(!user){
+    dispatch(notify('login is required to create blogs', 10, 'info'))
+    return(
+      <LoginForm/>
+    )
   }
 
   return (

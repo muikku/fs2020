@@ -3,13 +3,11 @@ import { useDispatch } from 'react-redux'
 import { login } from '../reducers/loginReducer'
 import { notify } from '../reducers/notificationReducer'
 import { useField } from '../hooks'
-import { useHistory } from 'react-router-dom'
 
 import { TextField, Button, } from '@material-ui/core'
 
 const LoginForm = () => {
   const dispatch = useDispatch()
-  const history = useHistory()
 
   const username = useField('text')
   const password = useField('password')
@@ -21,7 +19,6 @@ const LoginForm = () => {
       dispatch(login({ username: username.value, password: password.value }))
       username.onSubmit()
       password.onSubmit()
-      history.push('/blogs')
     } catch (exception) {
       console.log(exception)
       dispatch(notify('wrong username or password', 5))

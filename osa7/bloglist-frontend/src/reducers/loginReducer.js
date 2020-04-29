@@ -26,7 +26,6 @@ export const login = (givenObj) => {
   return async dispatch => {
     try {
       const user = await loginService.login(givenObj)
-      console.log(user)
       window.localStorage.setItem('loggedUser', JSON.stringify(user))
       blogService.setToken(user.token)
       dispatch({ type: 'LOGIN', data: user })

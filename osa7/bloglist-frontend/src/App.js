@@ -37,27 +37,17 @@ const App = () => {
       <BrowserRouter>
         <div>
           <h2>blogs</h2>
-
           <Notification />
-          {!user
-            ? (
-
-              <LoginForm
-              />
-            )
-            : (
-              <div>
-                <Menu />
-                <Switch>
-                  <Route path='/blogs/:id'><Blog /></Route>
-                  <Route path='/blogs'><BlogList /></Route>
-                  <Route path='/create'> <BlogForm /></Route>
-                  <Route path='/users/:id'><User /> </Route>
-                  <Route path='/users'><UserList/> </Route>
-                  <Route path='/'><BlogList /></Route>
-                </Switch>
-              </div>
-            )}
+          <Menu />
+          <Switch>
+            <Route path='/blogs/:id'> <Blog /> </Route>
+            <Route path='/blogs'> <BlogList /> </Route>
+            <Route path='/users/:id'> <User /> </Route>
+            <Route path='/users'> <UserList /> </Route>
+            <Route path='/create'> <BlogForm /> </Route>
+            {!user && <Route path='/login'> <LoginForm /> </Route>}
+            <Route path='/'> <BlogList /> </Route>
+          </Switch>
         </div>
       </BrowserRouter>
     </Container>
