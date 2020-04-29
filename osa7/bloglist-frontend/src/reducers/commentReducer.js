@@ -1,4 +1,5 @@
 import blogService from '../services/blogs'
+import notifyAndClear from '../utils/notifier'
 
 const reducer = (state = [], action) => {
   switch(action.type) {
@@ -13,21 +14,30 @@ const reducer = (state = [], action) => {
 
 export const initializeComments = () => {
   return async dispatch => {
-    const comments = await blogService.getComments()
-    dispatch({
-      type: 'INIT_COMMENTS',
-      comments
-    })
+    try{
+      const comments = await blogService.getComments()
+      dispatch({
+        type: 'INIT_COMMENTS',
+        comments
+      })
+    } catch (err){
+      notifyAndClear(dispatch, 'couldn\'t load comments from server',5, 'warning')
+    }
   }
 }
 
 export const createComment = (submittedComment, id) => {
   return async dispatch => {
-    const comment = await blogService.postComment(submittedComment, id)
-    dispatch({
-      type: 'POST_COMMENT',
-      comment
-    })
+    try{
+      const comment = await blogService.postComment(submittedComment, id)
+      dispatch({
+        type: 'POST_COMMENT',
+        comment
+      })
+      notifyAndClear(dispatch, 'comment added')
+    } catch (err) {
+      notifyAndClear(dispatch, 'an error occured while posting comment', 5, 'error')
+    }
   }
 }
 

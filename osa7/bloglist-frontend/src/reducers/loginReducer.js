@@ -1,5 +1,6 @@
 import loginService from '../services/login'
 import blogService from '../services/blogs'
+import notifyAndClear from '../utils/notifier'
 
 const reducer = (state = null, action) => {
   switch(action.type){
@@ -23,11 +24,16 @@ export const loginFromLocalStorage = (userFromLocalStorage) => {
 
 export const login = (givenObj) => {
   return async dispatch => {
-    const user = await loginService.login(givenObj)
-    console.log(user)
-    window.localStorage.setItem('loggedUser', JSON.stringify(user))
-    blogService.setToken(user.token)
-    dispatch({ type: 'LOGIN', data: user })
+    try {
+      const user = await loginService.login(givenObj)
+      console.log(user)
+      window.localStorage.setItem('loggedUser', JSON.stringify(user))
+      blogService.setToken(user.token)
+      dispatch({ type: 'LOGIN', data: user })
+      notifyAndClear(dispatch, `welcome ${user.name}!`)
+    } catch (e) {
+      notifyAndClear(dispatch, 'connection error while trying to login', 5, 'warning')
+    }
   }
 }
 

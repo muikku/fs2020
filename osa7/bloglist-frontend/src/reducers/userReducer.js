@@ -1,4 +1,5 @@
 import usersService from '../services/users'
+import notifyAndClear from '../utils/notifier'
 
 const reducer = (state = [], action) => {
   switch(action.type) {
@@ -13,11 +14,16 @@ const reducer = (state = [], action) => {
 
 export const initializeUsers = () => {
   return async dispatch => {
-    const users = await usersService.getAll()
-    dispatch({
-      type: 'INIT_USERS',
-      data: users
-    })
+    try {
+      const users = await usersService.getAll()
+      dispatch({
+        type: 'INIT_USERS',
+        data: users
+      })
+    } catch (e) {
+      notifyAndClear(dispatch, 'couldn\'t load users from server', 5, 'warning')
+    }
+
   }
 }
 /* ei toimi vielä */

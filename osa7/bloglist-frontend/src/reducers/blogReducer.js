@@ -1,4 +1,6 @@
 import blogService from '../services/blogs'
+import notifyAndClear from '../utils/notifier'
+
 
 const reducer = (state = [], action) => {
   switch(action.type) {
@@ -17,43 +19,65 @@ const reducer = (state = [], action) => {
 
 export const initializeBlogs = () => {
   return async dispatch => {
-    const blogs = await blogService.getAll()
-    dispatch({
-      type: 'INIT_BLOGS',
-      data: blogs
-    })
+    try {
+      const blogs = await blogService.getAll()
+      dispatch({
+        type: 'INIT_BLOGS',
+        data: blogs
+      })
+    } catch (e) {
+      notifyAndClear(dispatch, 'couldn\'t load blogs from server', 5, 'warning')
+    }
+
   }
 }
 
-export const createBlog = (blog) => {
+export const createBlog = (blog, history) => {
   return async dispatch => {
-    const returnedBlog = await blogService.create(blog)
-    console.log('blog: ', returnedBlog)
-    dispatch({
-      type: 'CREATE_BLOG',
-      data: returnedBlog
-    })
+    try {
+      const returnedBlog = await blogService.create(blog)
+      dispatch({
+        type: 'CREATE_BLOG',
+        data: returnedBlog
+      })
+      notifyAndClear(dispatch, `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
+      history.push(`/blogs/${returnedBlog.id}`)
+    } catch (e) {
+      notifyAndClear(dispatch,`an error occured while posting blog ${blog.title}`, 5, 'error')
+    }
   }
 }
 
 export const likeBlog = (blog) => {
   return async dispatch => {
-    const likedBlog = { ...blog, likes: blog.likes + 1 }
-    const returnedBlog = await blogService.update(blog.id, likedBlog)
-    dispatch({
-      type: 'LIKE_BLOG',
-      data: returnedBlog
-    })
+    try {
+      const likedBlog = { ...blog, likes: blog.likes + 1 }
+      const returnedBlog = await blogService.update(blog.id, likedBlog)
+      dispatch({
+        type: 'LIKE_BLOG',
+        data: returnedBlog
+      })
+      notifyAndClear(dispatch,`liked ${returnedBlog.title}!`)
+    } catch (error) {
+      notifyAndClear(dispatch,`an error occured while liking blog ${blog.title}`, 5, 'error')
+    }
+
   }
 }
 
-export const removeBlog = (id) => {
+export const removeBlog = (blog) => {
   return async dispatch => {
-    await blogService.remove(id)
-    dispatch({
-      type: 'DELETE_BLOG',
-      data: id
-    })
+    try {
+      await blogService.remove(blog.id)
+      dispatch({
+        type: 'DELETE_BLOG',
+        data: blog.id
+      })
+      notifyAndClear(dispatch, `${blog.title} deleted!`)
+    } catch (e) {
+      notifyAndClear(dispatch, `an error occured when deleting ${blog.title}`, 5, 'error')
+    }
+
   }
 }
 

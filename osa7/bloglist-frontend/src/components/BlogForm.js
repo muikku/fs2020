@@ -1,13 +1,14 @@
 import React from 'react'
 import { useField } from '../hooks'
 import { useDispatch, useSelector } from 'react-redux'
-import { notify } from '../reducers/notificationReducer'
 import  { createBlog } from '../reducers/blogReducer'
 import { updateUserBlogs } from '../reducers/userReducer'
 import { TextField, Button } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
 
 const BlogForm = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const user = useSelector(state => state.login)
 
   const title = useField('text')
@@ -16,24 +17,16 @@ const BlogForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    try{
-      const newBlog = {
-        title: title.value,
-        author: author.value,
-        url: url.value
-      }
-      dispatch(createBlog(newBlog))
-      /*ei toimi vielä*/
-      dispatch(updateUserBlogs(user, newBlog))
-      /* */
-      dispatch(notify(`a new blog ${newBlog.title} by ${newBlog.author} added`, 5))
-    } catch(error){
-      dispatch(notify('there was a problem, could not add blog', 5))
+
+    const newBlog = {
+      title: title.value,
+      author: author.value,
+      url: url.value
     }
-    createBlog()
-    title.onSubmit()
-    author.onSubmit()
-    url.onSubmit()
+    dispatch(createBlog(newBlog, history))
+    /*ei toimi vielä*/
+    dispatch(updateUserBlogs(user, newBlog))
+    /* */
   }
 
   return (
