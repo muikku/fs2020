@@ -24,6 +24,14 @@ export const notify = (message, time, severity) => {
   }
 }
 
+export const clear = () => {
+  return dispatch => {
+    dispatch({
+      type: 'CLEAR_MESSAGE'
+    })
+  }
+}
+
 let messageTimeout
 
 export default reducer

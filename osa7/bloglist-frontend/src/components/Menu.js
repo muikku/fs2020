@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import React from 'react'
 import Logout from './Logout'
+import LoginForm from './LoginForm'
+import BlogForm from './BlogForm'
 import { AppBar, Button, Toolbar } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 
@@ -13,18 +15,14 @@ const Menu = () => {
           <Button color="inherit" component={Link} to="/blogs">
             blogs
           </Button>
-          <Button color="inherit" component={Link} to="/create">
-            create blog
-          </Button>
+          <BlogForm/>
           <Button color="inherit" component={Link} to="/users">
             users
           </Button>
           {user ?
             <Logout />
             :
-            <Button color="inherit" component={Link} to="/login">
-              login
-            </Button>
+            <LoginForm/>
           }
         </Toolbar>
       </AppBar>

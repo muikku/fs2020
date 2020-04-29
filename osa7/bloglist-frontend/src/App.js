@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import BlogList from './components/BlogList'
-import BlogForm from './components/BlogForm'
-import LoginForm from './components/LoginForm'
 import Menu from './components/Menu'
 import User from './components/User'
 import Blog from './components/Blog'
@@ -17,7 +15,6 @@ import Container from '@material-ui/core/Container'
 
 const App = () => {
   const dispatch = useDispatch()
-  const user = useSelector(state => state.login)
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -36,17 +33,14 @@ const App = () => {
     <Container>
       <BrowserRouter>
         <div>
-          <h2>blogs</h2>
-          <h3>put forms on card?</h3>
           <Notification />
           <Menu />
+          <h2>blogs</h2>
           <Switch>
             <Route path='/blogs/:id'> <Blog /> </Route>
             <Route path='/blogs'> <BlogList /> </Route>
             <Route path='/users/:id'> <User /> </Route>
             <Route path='/users'> <UserList /> </Route>
-            <Route path='/create'> <BlogForm /> </Route>
-            {!user && <Route path='/login'> <LoginForm /> </Route>}
             <Route path='/'> <BlogList /> </Route>
           </Switch>
         </div>

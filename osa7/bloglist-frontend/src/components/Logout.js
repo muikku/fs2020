@@ -11,7 +11,7 @@ const Logout = () => {
     dispatch(logout())
   }
   return (
-    <em>{name} logged in {<Button color="inherit" onClick={handleLogout}>logout</Button>}</em>
+    <em>{name} logged in {<Button variant="outlined" color="inherit" onClick={handleLogout}>logout</Button>}</em>
   )
 }
 
