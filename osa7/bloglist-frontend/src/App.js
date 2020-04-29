@@ -54,6 +54,7 @@ const App = () => {
                   <Route path='/create'> <BlogForm /></Route>
                   <Route path='/users/:id'><User /> </Route>
                   <Route path='/users'><UserList/> </Route>
+                  <Route path='/'><BlogList /></Route>
                 </Switch>
               </div>
             )}

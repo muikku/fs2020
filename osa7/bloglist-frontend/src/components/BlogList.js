@@ -5,7 +5,9 @@ import { Table, TableBody, TableCell, TableContainer, TableRow, Paper } from '@m
 
 const BlogList = () => {
   const blogs = useSelector(state => state.blogs)
-
+  if(blogs.length < 1){
+    return <h3>No blogs atm... :/</h3>
+  }
   return(
     <TableContainer component={Paper}>
       <Table>

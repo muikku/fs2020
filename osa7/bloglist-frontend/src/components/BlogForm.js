@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { notify } from '../reducers/notificationReducer'
 import  { createBlog } from '../reducers/blogReducer'
 import { updateUserBlogs } from '../reducers/userReducer'
+import { TextField, Button, FormLabel } from '@material-ui/core'
 
 const BlogForm = () => {
   const dispatch = useDispatch()
@@ -11,7 +12,7 @@ const BlogForm = () => {
 
   const title = useField('text')
   const author = useField('text')
-  const url = useField('text')
+  const url = useField('url')
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -36,26 +37,31 @@ const BlogForm = () => {
   }
 
   return (
+
     <form className='formDiv' onSubmit={handleSubmit}>
+      <h3>create blog</h3>
       <div>
-        title
-        <input
-          {...title}
-          required/>
+        <TextField
+          label="title"
+          inputProps={title}
+          required
+        />
       </div>
       <div>
-        author
-        <input
-          {...author}
-          required/>{/*backend does not require this(?)*/}
+        <TextField
+          label="author"
+          inputProps={author}
+          required
+        />
       </div>
       <div>
-        url
-        <input
-          {...url}
-          required/>
+        <TextField
+          label="url"
+          inputProps={url}
+          required
+        />
       </div>
-      <button id='blogSubmitButton' type="submit">submit</button>
+      <Button id='blogSubmitButton' type="submit">submit</Button>
     </form>
   )
 }
