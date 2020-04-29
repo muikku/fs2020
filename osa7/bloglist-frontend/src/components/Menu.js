@@ -1,14 +1,32 @@
 import { Link } from 'react-router-dom'
 import React from 'react'
 import Logout from './Logout'
+import { AppBar, Button, Toolbar } from '@material-ui/core'
 
 const Menu = () => {
   return(
+
     <div>
-      <Link to='/blogs'> blogs </Link>
-      <Link to='/create'> create blog </Link>
-      <Link to='/users'> users </Link>
-      <Logout />
+      <AppBar position="static">
+        <Toolbar>
+          <Button color="inherit" component={Link} to="/blogs">
+            blogs
+          </Button>
+          <Button color="inherit" component={Link} to="/create">
+            create blog
+          </Button>
+          <Button color="inherit" component={Link} to="/users">
+            users
+          </Button>
+
+          <Logout />
+        </Toolbar>
+
+
+      </AppBar>
+
+
+
     </div>
   )
 }

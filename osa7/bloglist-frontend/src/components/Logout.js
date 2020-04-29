@@ -1,6 +1,8 @@
 import React from 'react'
 import { logout } from '../reducers/loginReducer'
 import { useDispatch, useSelector } from 'react-redux'
+import { Button } from '@material-ui/core'
+
 
 const Logout = () => {
   const dispatch = useDispatch()
@@ -9,7 +11,7 @@ const Logout = () => {
     dispatch(logout())
   }
   return (
-    <>{name} logged in {<button onClick={handleLogout}>logout</button>}</>
+    <em>{name} logged in {<Button color="inherit" onClick={handleLogout}>logout</Button>}</em>
   )
 }
 
