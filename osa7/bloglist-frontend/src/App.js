@@ -37,6 +37,7 @@ const App = () => {
       <BrowserRouter>
         <div>
           <h2>blogs</h2>
+          <h3>put forms on card?</h3>
           <Notification />
           <Menu />
           <Switch>

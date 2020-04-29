@@ -4,7 +4,7 @@ import { login } from '../reducers/loginReducer'
 import { notify } from '../reducers/notificationReducer'
 import { useField } from '../hooks'
 
-import { TextField, Button, } from '@material-ui/core'
+import { TextField, Button, Container, } from '@material-ui/core'
 
 const LoginForm = () => {
   const dispatch = useDispatch()
@@ -25,15 +25,17 @@ const LoginForm = () => {
     }
   }
   return (
-    <form onSubmit={handleLogin}>
-      <div>
-        <TextField label="username" inputProps={username} required/>
-      </div>
-      <div>
-        <TextField label="password" inputProps={password} required/>
-      </div>
-      <Button variant="contained" id='login-button' type="submit">login</Button>
-    </form>
+    <Container maxWidth="sm">
+      <form onSubmit={handleLogin}>
+        <div>
+          <TextField label="username" inputProps={username} required/>
+        </div>
+        <div>
+          <TextField label="password" inputProps={password} required/>
+        </div>
+        <Button variant="contained" id='login-button' type="submit">login</Button>
+      </form>
+    </Container>
   )
 }
 

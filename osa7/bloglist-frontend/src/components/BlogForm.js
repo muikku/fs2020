@@ -3,7 +3,7 @@ import { useField } from '../hooks'
 import { useDispatch, useSelector } from 'react-redux'
 import  { createBlog } from '../reducers/blogReducer'
 import { updateUserBlogs } from '../reducers/userReducer'
-import { TextField, Button } from '@material-ui/core'
+import { TextField, Button, Container } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 import { notify } from '../reducers/notificationReducer'
 import LoginForm from './LoginForm'
@@ -39,32 +39,33 @@ const BlogForm = () => {
   }
 
   return (
-
-    <form className='formDiv' onSubmit={handleSubmit}>
-      <h3>create blog</h3>
-      <div>
-        <TextField
-          label="title"
-          inputProps={title}
-          required
-        />
-      </div>
-      <div>
-        <TextField
-          label="author"
-          inputProps={author}
-          required
-        />
-      </div>
-      <div>
-        <TextField
-          label="url"
-          inputProps={url}
-          required
-        />
-      </div>
-      <Button id='blogSubmitButton' type="submit">submit</Button>
-    </form>
+    <Container maxWidth="sm">
+      <form className='formDiv' onSubmit={handleSubmit}>
+        <h1>create blog</h1>
+        <div>
+          <TextField
+            label="title"
+            inputProps={title}
+            required
+          />
+        </div>
+        <div>
+          <TextField
+            label="author"
+            inputProps={author}
+            required
+          />
+        </div>
+        <div>
+          <TextField
+            label="url"
+            inputProps={url}
+            required
+          />
+        </div>
+        <Button id='blogSubmitButton' type="submit">submit</Button>
+      </form>
+    </Container>
   )
 }
 
