@@ -5,6 +5,8 @@ import { notify } from '../reducers/notificationReducer'
 import { useField } from '../hooks'
 import { useHistory } from 'react-router-dom'
 
+import { TextField, Button, } from '@material-ui/core'
+
 const LoginForm = () => {
   const dispatch = useDispatch()
   const history = useHistory()
@@ -28,18 +30,12 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleLogin}>
       <div>
-        username
-        <input
-          {...username}
-        />
+        <TextField label="username" inputProps={username} required/>
       </div>
       <div>
-        password
-        <input
-          {...password}
-        />
+        <TextField label="password" inputProps={password} required/>
       </div>
-      <button id='login-button' type="submit">login</button>
+      <Button variant="contained" id='login-button' type="submit">login</Button>
     </form>
   )
 }
