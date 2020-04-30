@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { likeBlog, removeBlog } from '../reducers/blogReducer'
 import { useParams, useHistory } from 'react-router-dom'
 import Comments from './Comments'
-import { Container } from '@material-ui/core'
+import { Container, Button, Typography, Grid, Divider, Tooltip } from '@material-ui/core'
+import { ThumbUp, Delete } from '@material-ui/icons'
 
 const Blog = () => {
   const id = useParams().id
@@ -36,17 +37,34 @@ const Blog = () => {
   }
 
   return(
-    <Container maxWidth="sm">
-      <div className='blog'>
-        <div >
-          <h1>{blog.title} {blog.author}</h1>
-          <a href={blog.url}>{blog.url}</a>
-          <div id='blogLikes'>{blog.likes} likes<button id='blogLikeButton' onClick={() => dispatch(likeBlog(blog))}>like</button></div>
-          <div>added by {blogUser.name}</div>
-          {canDelete() && <button id='blogDeleteButton' onClick={deletePushed}>remove</button>}
+    <Container>
+      <Grid container direction="column" justify="space-between" spacing={3}>
+        <Grid item>
+          <Typography variant="h2">{blog.title} {blog.author}</Typography>
+          <a href={blog.url}>{<Typography>{blog.url}</Typography>}</a>
+        </Grid>
+        <Grid item>
+          <Grid container direction="row" justify="space-between">
+            <Button variant="contained"startIcon={<ThumbUp/>}color="inherit" id='blogLikeButton' onClick={() => dispatch(likeBlog(blog))}>{blog.likes} likes</Button>
+            <Typography>added by {blogUser.name}</Typography>
+            {canDelete() ?
+              <Button variant="contained" startIcon={<Delete/>} onClick={deletePushed}>
+                    Remove
+              </Button> :
+              <Tooltip title="only owner can delete">
+                <span>
+                  <Button variant="outlined" startIcon={<Delete/>} disabled>Remove</Button>
+                </span>
+              </Tooltip>}
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Divider spacing={3}/>
+        </Grid>
+        <Grid item>
           <Comments blog={blog} />
-        </div>
-      </div>
+        </Grid>
+      </Grid>
     </Container>
   )
 }
