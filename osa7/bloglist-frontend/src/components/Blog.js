@@ -6,6 +6,7 @@ import { useParams, useHistory } from 'react-router-dom'
 import Comments from './Comments'
 import { Container, Button, Typography, Grid, Divider, Tooltip } from '@material-ui/core'
 import { ThumbUp, Delete } from '@material-ui/icons'
+import { Link } from 'react-router-dom'
 
 const Blog = () => {
   const id = useParams().id
@@ -41,7 +42,7 @@ const Blog = () => {
       <Grid container direction="column" justify="space-between" spacing={3}>
         <Grid item>
           <Typography variant="h2">{blog.title} {blog.author}</Typography>
-          <Typography>added by {blogUser.name}</Typography>
+          <Typography>added by <Link  to={`/users/${blogUser.id}`}>{blogUser.name} </Link></Typography>
           <a href={blog.url}>{<Typography>{blog.url}</Typography>}</a>
 
         </Grid>
