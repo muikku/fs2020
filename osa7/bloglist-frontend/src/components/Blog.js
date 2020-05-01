@@ -41,12 +41,14 @@ const Blog = () => {
       <Grid container direction="column" justify="space-between" spacing={3}>
         <Grid item>
           <Typography variant="h2">{blog.title} {blog.author}</Typography>
+          <Typography>added by {blogUser.name}</Typography>
           <a href={blog.url}>{<Typography>{blog.url}</Typography>}</a>
+
         </Grid>
         <Grid item>
           <Grid container direction="row" justify="space-between">
             <Button variant="contained"startIcon={<ThumbUp/>}color="inherit" id='blogLikeButton' onClick={() => dispatch(likeBlog(blog))}>{blog.likes} likes</Button>
-            <Typography>added by {blogUser.name}</Typography>
+
             {canDelete() ?
               <Button variant="contained" startIcon={<Delete/>} onClick={deletePushed}>
                     Remove
