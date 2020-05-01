@@ -3,15 +3,21 @@ import React from 'react'
 import Logout from './Logout'
 import LoginForm from './LoginForm'
 import BlogForm from './BlogForm'
-import { AppBar, Button, Toolbar } from '@material-ui/core'
+import { AppBar, Button, Toolbar, makeStyles } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 
 const Menu = () => {
   const user = useSelector(state => state.login)
+  const useStyles = makeStyles((theme) => ({
+    toolbar: theme.mixins.toolbar
+  }))
+  const classes = useStyles()
   return(
     <div>
-      <AppBar position="static">
-        <Toolbar>
+      {/*just a quick way to have enougn space under menubar. Maybe something more elegant later.*/}
+      <div className={classes.toolbar} /><div className={classes.toolbar} />
+      <AppBar position="fixed">
+        <Toolbar >
           <Button color="inherit" component={Link} to="/blogs">
             blogs
           </Button>
@@ -26,9 +32,6 @@ const Menu = () => {
           }
         </Toolbar>
       </AppBar>
-
-
-
     </div>
   )
 }

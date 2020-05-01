@@ -30,20 +30,17 @@ const App = () => {
   },[dispatch])
 
   return (
-    <Container>
+    <Container >
       <BrowserRouter>
-        <div>
-          <Notification />
-          <Menu />
-          <h2>blogs</h2>
-          <Switch>
-            <Route path='/blogs/:id'> <Blog /> </Route>
-            <Route path='/blogs'> <BlogList /> </Route>
-            <Route path='/users/:id'> <User /> </Route>
-            <Route path='/users'> <UserList /> </Route>
-            <Route path='/'> <BlogList /> </Route>
-          </Switch>
-        </div>
+        <Notification />
+        <Menu />
+        <Switch>
+          <Route path='/blogs/:id'> <Blog /> </Route>
+          <Route path='/blogs'> <BlogList /> </Route>
+          <Route path='/users/:id'> <User /> </Route>
+          <Route path='/users'> <UserList /> </Route>
+          <Route path='/'> <BlogList /> </Route>
+        </Switch>
       </BrowserRouter>
     </Container>
   )

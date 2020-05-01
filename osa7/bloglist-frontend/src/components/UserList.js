@@ -7,7 +7,7 @@ import { TableContainer, Paper, Table, TableCell, TableHead, TableBody, TableRow
 const UserList = () => {
   const users = useSelector(state => state.users)
   return(
-    <Grid lignItems="stretch" justify="center" container direction="column" spacing={3}>
+    <Grid alignItems="stretch" justify="center" container direction="column" spacing={3}>
       <Grid alignItems="center" container justify="center" direction="column">
         <Grid item>
           <Typography variant="h2">Users</Typography>
