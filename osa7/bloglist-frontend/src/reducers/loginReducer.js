@@ -1,5 +1,6 @@
 import loginService from '../services/login'
 import blogService from '../services/blogs'
+import userService from '../services/users'
 import notifyAndClear from '../utils/notifier'
 
 const reducer = (state = null, action) => {
@@ -8,7 +9,6 @@ const reducer = (state = null, action) => {
     return action.data
   case 'LOGOUT':
     return null
-
   default:
     return state
   }
@@ -36,6 +36,22 @@ export const login = (givenObj) => {
   }
 }
 
+export const signIn = (user) => {
+  return async dispatch => {
+    try {
+      const signedUser = await userService.signIn(user)
+      const loggedUser = await loginService.login({ username: user.username, password: user.password })
+      window.localStorage.setItem('loggedUser', JSON.stringify(loggedUser))
+      blogService.setToken(loggedUser.token)
+      dispatch({ type: 'LOGIN', data: loggedUser })
+      dispatch({ type: 'ADD_USER', user: signedUser })
+      notifyAndClear(dispatch, `account created ${user.name}!`)
+    } catch (e) {
+      notifyAndClear(dispatch, `error: ${e.message}`, 5, 'warning')
+    }
+  }
+}
+
 export const logout = () => {
   return dispatch => {
     window.localStorage.removeItem('loggedUser')
@@ -43,6 +59,7 @@ export const logout = () => {
     dispatch({
       type: 'LOGOUT'
     })
+    notifyAndClear(dispatch, 'logged out', 5, 'info')
   }
 }
 

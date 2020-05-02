@@ -40,6 +40,12 @@ export const createBlog = (blog, history) => {
         type: 'CREATE_BLOG',
         data: returnedBlog
       })
+      const blogUsername = returnedBlog.user[0].username
+      dispatch({
+        type:'UPDATE_USER_BLOGS',
+        blog: returnedBlog,
+        username: blogUsername
+      })
       notifyAndClear(dispatch, `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
       history.push(`/blogs/${returnedBlog.id}`)
     } catch (e) {

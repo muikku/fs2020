@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useField } from '../hooks'
 import { useDispatch, useSelector } from 'react-redux'
 import  { createBlog } from '../reducers/blogReducer'
-import { updateUserBlogs } from '../reducers/userReducer'
 import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, Tooltip } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 import { notify } from '../reducers/notificationReducer'
@@ -31,9 +30,6 @@ const BlogForm = () => {
       url: url.value
     }
     dispatch(createBlog(newBlog, history))
-    /*ei toimi vielä*/
-    dispatch(updateUserBlogs(user, newBlog))
-    /* */
     setOpen(false)
   }
 

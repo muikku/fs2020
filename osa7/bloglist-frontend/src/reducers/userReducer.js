@@ -5,8 +5,13 @@ const reducer = (state = [], action) => {
   switch(action.type) {
   case 'INIT_USERS':
     return action.data
-  case 'UPDATE_USER_BLOGS':
-    return state.map(u => u.username === action.username ? { ...u, blogs: u.blogs.concat(action.blog) } : u)
+  case 'UPDATE_USER_BLOGS': {
+    const user = state.find(u => u.username === action.username)
+    const usersBlogs = user.blogs.concat(action.blog)
+    return state.map(u => u.username === action.username ? { ...user, blogs: usersBlogs } : u)
+  }
+  case 'ADD_USER':
+    return state.concat(action.user)
   default:
     return state
   }
@@ -26,13 +31,22 @@ export const initializeUsers = () => {
 
   }
 }
-/* ei toimi vielä */
-export const updateUserBlogs = (username, blog) => {
+
+export const updateUserBlogs = (blog, username) => {
   return dispatch => {
     dispatch({
       type: 'UPDATE_USER_BLOGS',
-      data: blog,
+      blog,
       username
+    })
+  }
+}
+
+export const addUser = (user) => {
+  return dispatch => {
+    dispatch({
+      type: 'ADD_USER',
+      user
     })
   }
 }

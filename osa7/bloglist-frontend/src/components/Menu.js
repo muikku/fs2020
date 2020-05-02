@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import React from 'react'
 import Logout from './Logout'
 import LoginForm from './LoginForm'
+import SignInForm from './SignInForm'
 import BlogForm from './BlogForm'
 import { AppBar, Button, Toolbar, makeStyles } from '@material-ui/core'
 import { useSelector } from 'react-redux'
@@ -28,7 +29,10 @@ const Menu = () => {
           {user ?
             <Logout />
             :
-            <LoginForm/>
+            <>
+              <LoginForm/>
+              <SignInForm />
+            </>
           }
         </Toolbar>
       </AppBar>

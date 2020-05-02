@@ -19,7 +19,7 @@ const User = () => {
           <Typography variant="h2">{user.name}</Typography>
         </Grid>
         <Grid item>
-          <Typography variant="h4" >added blogs</Typography>
+          {user.blogs.length < 1 ? <Typography variant="h4" >no blogs yet :/</Typography> : <Typography variant="h4" >added blogs</Typography>}
         </Grid>
       </Grid>
       <Grid item>

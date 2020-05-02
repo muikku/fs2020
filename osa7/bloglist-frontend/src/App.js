@@ -15,8 +15,8 @@ import Container from '@material-ui/core/Container'
 /*
   Todo:
   responsive menu
-  bug: editing blog makes state to lose its creator
-  sign in
+  window.confirm => more stylish version
+  alerts give correct info
 */
 const App = () => {
   const dispatch = useDispatch()
