@@ -15,9 +15,8 @@ import Container from '@material-ui/core/Container'
 /*
   Todo:
   responsive menu
-  editing blog makes state to lose its creator
+  bug: editing blog makes state to lose its creator
   sign in
-  change "no blog atm to loading icon"
 */
 const App = () => {
   const dispatch = useDispatch()

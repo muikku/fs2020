@@ -30,7 +30,9 @@ blogRouter.post('/', async (request, response) => {
   user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
 
-  response.json(savedBlog.toJSON())
+  const returnPopulated = await Blog.findById(savedBlog._id).populate('user', { username: 1, name: 1 })
+
+  response.json(returnPopulated.toJSON())
 })
 
 blogRouter.put('/:id', async (request, response) => {
@@ -41,7 +43,8 @@ blogRouter.put('/:id', async (request, response) => {
     url: body.url,
     likes: body.likes || 0
   }
-  const savedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+  const savedBlog = await (await Blog.findByIdAndUpdate(request.params.id, blog, { new: true }))
+    .populate('user', { username: 1, name: 1 })
   response.json(savedBlog.toJSON())
 })
 
