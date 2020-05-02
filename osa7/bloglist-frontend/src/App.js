@@ -12,7 +12,13 @@ import { loginFromLocalStorage } from './reducers/loginReducer'
 import { BrowserRouter, Route,  Switch } from 'react-router-dom'
 import UserList from './components/UserList'
 import Container from '@material-ui/core/Container'
-
+/*
+  Todo:
+  responsive menu
+  editing blog makes state to lose its creator
+  sign in
+  change "no blog atm to loading icon"
+*/
 const App = () => {
   const dispatch = useDispatch()
 

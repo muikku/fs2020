@@ -55,7 +55,7 @@ export const likeBlog = (blog) => {
       const returnedBlog = await blogService.update(blog.id, likedBlog)
       dispatch({
         type: 'LIKE_BLOG',
-        data: returnedBlog
+        data: likedBlog
       })
       notifyAndClear(dispatch,`liked ${returnedBlog.title}!`)
     } catch (error) {

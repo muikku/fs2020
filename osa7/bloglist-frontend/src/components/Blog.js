@@ -44,7 +44,6 @@ const Blog = () => {
           <Typography variant="h2">{blog.title} {blog.author}</Typography>
           <Typography>added by <Link  to={`/users/${blogUser.id}`}>{blogUser.name} </Link></Typography>
           <a href={blog.url}>{<Typography>{blog.url}</Typography>}</a>
-
         </Grid>
         <Grid item>
           <Grid container direction="row" justify="space-between">
