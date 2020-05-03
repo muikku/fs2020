@@ -49,7 +49,9 @@ export const createBlog = (blog, history) => {
       notifyAndClear(dispatch, `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
       history.push(`/blogs/${returnedBlog.id}`)
     } catch (e) {
-      notifyAndClear(dispatch,`an error occured while posting blog ${blog.title}`, 5, 'error')
+      e.response.data.error ?
+        notifyAndClear(dispatch, e.response.data.error, 15, 'error') :
+        notifyAndClear(dispatch, 'Server is not responding', 15, 'error')
     }
   }
 }
@@ -64,8 +66,10 @@ export const likeBlog = (blog) => {
         data: likedBlog
       })
       notifyAndClear(dispatch,`liked ${returnedBlog.title}!`)
-    } catch (error) {
-      notifyAndClear(dispatch,`an error occured while liking blog ${blog.title}`, 5, 'error')
+    } catch (e) {
+      e.response.data.error ?
+        notifyAndClear(dispatch, e.response.data.error, 15, 'error') :
+        notifyAndClear(dispatch, 'Server is not responding', 15, 'error')
     }
 
   }
@@ -81,7 +85,9 @@ export const removeBlog = (blog) => {
       })
       notifyAndClear(dispatch, `${blog.title} deleted!`)
     } catch (e) {
-      notifyAndClear(dispatch, `an error occured when deleting ${blog.title}`, 5, 'error')
+      e.response.data.error ?
+        notifyAndClear(dispatch, e.response.data.error, 15, 'error') :
+        notifyAndClear(dispatch, 'Server is not responding', 15, 'error')
     }
 
   }

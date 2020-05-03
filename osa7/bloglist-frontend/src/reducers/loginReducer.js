@@ -31,7 +31,9 @@ export const login = (givenObj) => {
       dispatch({ type: 'LOGIN', data: user })
       notifyAndClear(dispatch, `welcome ${user.name}!`)
     } catch (e) {
-      notifyAndClear(dispatch, 'connection error while trying to login', 5, 'warning')
+      e.response.data.error ?
+        notifyAndClear(dispatch, e.response.data.error, 15, 'error') :
+        notifyAndClear(dispatch, 'Server is not responding', 15, 'error')
     }
   }
 }
@@ -47,7 +49,9 @@ export const signIn = (user) => {
       dispatch({ type: 'ADD_USER', user: signedUser })
       notifyAndClear(dispatch, `account created ${user.name}!`)
     } catch (e) {
-      notifyAndClear(dispatch, `error: ${e.message}`, 5, 'warning')
+      e.response.data.error ?
+        notifyAndClear(dispatch, e.response.data.error, 15, 'error') :
+        notifyAndClear(dispatch, 'Server is not responding', 15, 'error')
     }
   }
 }

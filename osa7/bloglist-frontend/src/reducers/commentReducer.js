@@ -35,8 +35,10 @@ export const createComment = (submittedComment, id) => {
         comment
       })
       notifyAndClear(dispatch, 'comment added')
-    } catch (err) {
-      notifyAndClear(dispatch, 'an error occured while posting comment', 5, 'error')
+    } catch (e) {
+      e.response.data.error ?
+        notifyAndClear(dispatch, e.response.data.error, 15, 'error') :
+        notifyAndClear(dispatch, 'Server is not responding', 15, 'error')
     }
   }
 }

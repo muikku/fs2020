@@ -16,7 +16,6 @@ import Container from '@material-ui/core/Container'
   Todo:
   responsive menu
   window.confirm => more stylish version
-  alerts give correct info
 */
 const App = () => {
   const dispatch = useDispatch()

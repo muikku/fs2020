@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { signIn } from '../reducers/loginReducer'
-import { notify } from '../reducers/notificationReducer'
 import { useField } from '../hooks'
 
 import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core'
@@ -25,15 +24,7 @@ const LoginForm = () => {
 
   const handleSignIn = async (event) => {
     event.preventDefault()
-    try {
-      dispatch(signIn({ username: username.value, password: password.value, name: name.value }))
-      ///onsubmit clears input fields
-      username.onSubmit()
-      password.onSubmit()
-      name.onSubmit()
-    } catch (exception) {
-      dispatch(notify('an error while trying to sign in', 5))
-    }
+    dispatch(signIn({ username: username.value, password: password.value, name: name.value }))
   }
   return (
     <div>
