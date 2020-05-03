@@ -7,6 +7,7 @@ import Comments from './Comments'
 import { Container, Button, Typography, Grid, Divider, Tooltip } from '@material-ui/core'
 import { ThumbUp, Delete } from '@material-ui/icons'
 import { Link } from 'react-router-dom'
+import Confirm from './Confirm'
 
 const Blog = () => {
   const id = useParams().id
@@ -23,10 +24,8 @@ const Blog = () => {
   const blogUser = blog.user[0]
 
   const deletePushed = () => {
-    if(window.confirm(`You are about to delete ${blog.title} by ${blog.author}`)){
-      dispatch(removeBlog(blog))
-      history.push('/blogs')
-    }
+    dispatch(removeBlog(blog))
+    history.push('/blogs')
   }
 
   const canDelete = () => {
@@ -47,12 +46,17 @@ const Blog = () => {
         </Grid>
         <Grid item>
           <Grid container direction="row" justify="space-between">
-            <Button variant="contained"startIcon={<ThumbUp/>}color="inherit" id='blogLikeButton' onClick={() => dispatch(likeBlog(blog))}>{blog.likes} likes</Button>
+            <Button variant="contained" startIcon={<ThumbUp/>}color="inherit" id='blogLikeButton' onClick={() => dispatch(likeBlog(blog))}>{blog.likes} likes</Button>
 
             {canDelete() ?
-              <Button variant="contained" startIcon={<Delete/>} onClick={deletePushed}>
-                    Remove
-              </Button> :
+              <Confirm
+                buttonText="Remove"
+                dialogTitle="Delete blog?"
+                dialogText={`Just confirming that you really want to delete ${blog.title} by ${blog.author}.\nThis action cannot be reverted.`}
+                confirmButtonName="Remove"
+                cancelButtonName="Cancel"
+                action={deletePushed}/>
+              :
               <Tooltip title="only owner can delete">
                 <span>
                   <Button variant="outlined" startIcon={<Delete/>} disabled>Remove</Button>
