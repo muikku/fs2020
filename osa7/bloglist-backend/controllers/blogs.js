@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
@@ -14,6 +13,7 @@ blogRouter.post('/', async (request, response) => {
   const body = request.body
   const token = request.token
 
+  // eslint-disable-next-line no-undef
   const decodedToken = jwt.verify(token, process.env.SECRET)
   if(!token || !decodedToken.id){
     return response.status(401).json({ error: 'token missing or invalid' })
@@ -51,6 +51,7 @@ blogRouter.put('/:id', async (request, response) => {
 blogRouter.delete('/:id', async (request, response) => {
   const token = request.token
 
+  // eslint-disable-next-line no-undef
   const decodedToken = jwt.verify(token, process.env.SECRET)
   if(!token || !decodedToken.id){
     return response.status(401).json({ error: 'token missing or invalid' })

@@ -1,5 +1,6 @@
-import usersService from '../services/users'
+import userService from '../services/users'
 import notifyAndClear from '../utils/notifier'
+import blogService from '../services/blogs'
 
 const reducer = (state = [], action) => {
   switch(action.type) {
@@ -12,6 +13,8 @@ const reducer = (state = [], action) => {
   }
   case 'ADD_USER':
     return state.concat(action.user)
+  case 'REMOVE_USER':
+    return state.filter(u => u.id !== action.id)
   default:
     return state
   }
@@ -20,7 +23,7 @@ const reducer = (state = [], action) => {
 export const initializeUsers = () => {
   return async dispatch => {
     try {
-      const users = await usersService.getAll()
+      const users = await userService.getAll()
       dispatch({
         type: 'INIT_USERS',
         data: users
@@ -28,7 +31,6 @@ export const initializeUsers = () => {
     } catch (e) {
       notifyAndClear(dispatch, 'couldn\'t load users from server', 5, 'warning')
     }
-
   }
 }
 
@@ -48,6 +50,35 @@ export const addUser = (user) => {
       type: 'ADD_USER',
       user
     })
+  }
+}
+
+export const deleteUser = (user) => {
+  return async dispatch => {
+    try{
+      await userService.remove(user.id)
+      dispatch({
+        type:'REMOVE_USER',
+        id: user.id
+      })
+      user.blogs.forEach(async blog => {
+        dispatch({
+          type: 'DELETE_BLOG',
+          data: blog.id
+        })
+      })
+      window.localStorage.removeItem('loggedUser')
+      blogService.resetToken()
+      userService.resetToken()
+      dispatch({
+        type: 'LOGOUT'
+      })
+      notifyAndClear(dispatch, `User ${user.name} removed.`)
+    } catch (e) {
+      e.response.data.error ?
+        notifyAndClear(dispatch, e.response.data.error, 15, 'error') :
+        notifyAndClear(dispatch, 'Server is not responding', 15, 'error')
+    }
   }
 }
 

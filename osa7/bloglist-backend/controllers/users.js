@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
+const Blog = require('../models/blog')
+const jwt = require('jsonwebtoken')
 
 usersRouter.post('/', async (request, response) => {
   const body = request.body
@@ -30,6 +32,27 @@ usersRouter.post('/', async (request, response) => {
 usersRouter.get('/', async (request, response) => {
   const users = await User.find({}).populate('blogs')
   response.json(users.map(u => u.toJSON()))
+})
+
+usersRouter.delete('/:id', async (request, response) => {
+  const token = request.token
+  // eslint-disable-next-line no-undef
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if(!token || !decodedToken.id){
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+  const user = await User.findById(decodedToken.id)
+  const targetedUser = await User.findById(request.params.id)
+  if(user._id.toString() === targetedUser._id.toString()){
+    user.blogs.forEach(b => {
+      console.log('blog?: ',b)
+      Blog.findByIdAndRemove(b.id)
+    })
+    await User.findByIdAndRemove(request.params.id)
+    return response.status(204).end()
+  } else {
+    return response.status(401).json({ error: 'unauthorized' })
+  }
 })
 
 module.exports = usersRouter

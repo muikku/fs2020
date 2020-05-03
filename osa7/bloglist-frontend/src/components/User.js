@@ -1,14 +1,17 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { useParams, useHistory } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { Typography, Table, TableBody, TableContainer, Paper, TableRow, TableCell, Grid } from '@material-ui/core'
 import Confirm from './Confirm'
+import { deleteUser } from '../reducers/userReducer'
 
 const User = () => {
+  const history = useHistory()
   const id = useParams().id
   const users = useSelector(state => state.users)
   const loggedUser = useSelector(state => state.login)
+  const dispatch = useDispatch()
 
   const user = users.find(u => u.id === id)
   if(!user){
@@ -23,7 +26,8 @@ const User = () => {
   }
 
   const RemoveAccount = () => {
-    console.log('DELETED!')
+    dispatch(deleteUser(user))
+    history.push('/blogs')
   }
 
   return(

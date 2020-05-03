@@ -1,6 +1,13 @@
 import axios from 'axios'
 const baseUrl = '/api/users'
 
+let token = null
+
+const setToken = newToken => {
+  token = `bearer ${newToken}`
+}
+
+const resetToken = () => token = null
 
 const getAll = () => {
   const request = axios.get(baseUrl)
@@ -12,5 +19,13 @@ const signIn = async (user) => {
   return response.data
 }
 
+const remove = (id) => {
+  const config = {
+    headers: { Authorization: token }
+  }
+  const request = axios.delete(`${baseUrl}/${id}`, config)
+  return request.then(response => response.data)
+}
 
-export default { getAll, signIn }
+
+export default { getAll, signIn, remove, setToken, resetToken }

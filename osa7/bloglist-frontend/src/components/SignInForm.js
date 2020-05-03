@@ -4,10 +4,12 @@ import { signIn } from '../reducers/loginReducer'
 import { useField } from '../hooks'
 
 import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
 
 
 
 const LoginForm = () => {
+  const history = useHistory()
   const dispatch = useDispatch()
   const username = useField('text')
   const name = useField('text')
@@ -24,7 +26,7 @@ const LoginForm = () => {
 
   const handleSignIn = async (event) => {
     event.preventDefault()
-    dispatch(signIn({ username: username.value, password: password.value, name: name.value }))
+    dispatch(signIn({ username: username.value, password: password.value, name: name.value }, history))
   }
   return (
     <div>
