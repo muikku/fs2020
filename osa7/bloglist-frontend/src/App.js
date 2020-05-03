@@ -15,7 +15,10 @@ import Container from '@material-ui/core/Container'
 /*
   Todo:
   responsive menu
-  window.confirm => more stylish version
+  finish user view
+  menu stuff
+  backend: users delete
+  front: users reducer & service delete
 */
 const App = () => {
   const dispatch = useDispatch()
