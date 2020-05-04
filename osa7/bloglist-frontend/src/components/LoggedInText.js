@@ -9,12 +9,12 @@ const LoggedInText = () => {
   return (
     <>
       {loggedUser &&
-        <em><Typography
+        <Typography
           color="inherit"
           component={Link}
           to={`/users/${loggedUser.id}`}>
           {loggedUser.name}
-        </Typography> logged in </em>
+        </Typography>
       }
     </>
   )

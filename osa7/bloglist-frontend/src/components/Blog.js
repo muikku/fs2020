@@ -41,8 +41,8 @@ const Blog = () => {
       <Grid container direction="column" justify="space-between" spacing={3}>
         <Grid item>
           <Typography variant="h2">{blog.title} {blog.author}</Typography>
-          <Typography>added by <Link  to={`/users/${blogUser.id}`}>{blogUser.name} </Link></Typography>
           <a href={blog.url}>{<Typography>{blog.url}</Typography>}</a>
+          <Typography>added by <Link  to={`/users/${blogUser.id}`}>{blogUser.name} </Link></Typography>
         </Grid>
         <Grid item>
           <Grid container direction="row" justify="space-between">
@@ -64,6 +64,7 @@ const Blog = () => {
                   <Button variant="outlined" startIcon={<Delete/>} disabled>Remove</Button>
                 </span>
               </Tooltip>}
+
           </Grid>
         </Grid>
         <Grid item>

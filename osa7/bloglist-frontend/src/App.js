@@ -12,13 +12,11 @@ import { BrowserRouter, Route,  Switch } from 'react-router-dom'
 import UserList from './components/UserList'
 import Container from '@material-ui/core/Container'
 import ResponsiveDrawer from './components/ResponsiveDrawer'
-import { Grid } from '@material-ui/core'
 /*
   Todo:
-  responsive menu
-  finish user view
-  menu stuff
-  signin title
+  persistent menu + icon
+  clicking drawer obj closes it
+  login and sign in styles
   use more custom hooks, at least for services..
 */
 const App = () => {
@@ -41,26 +39,15 @@ const App = () => {
     <Container >
       <BrowserRouter>
         <Notification />
-        <ResponsiveDrawer />
-        <Container>
-          <Grid container
-            direction="column"
-            justify="flex-end"
-            alignItems="center" spacing={6}>
-            <Grid item>
-              <span></span>
-            </Grid>
-            <Grid item>
-              <Switch>
-                <Route path='/blogs/:id'> <Blog /> </Route>
-                <Route path='/blogs'> <BlogList /> </Route>
-                <Route path='/users/:id'> <User /> </Route>
-                <Route path='/users'> <UserList /> </Route>
-                <Route path='/'> <BlogList /> </Route>
-              </Switch>
-            </Grid>
-          </Grid>
-        </Container>
+        <ResponsiveDrawer >
+          <Switch>
+            <Route path='/blogs/:id'> <Blog /> </Route>
+            <Route path='/blogs'> <BlogList /> </Route>
+            <Route path='/users/:id'> <User /> </Route>
+            <Route path='/users'> <UserList /> </Route>
+            <Route path='/'> <BlogList /> </Route>
+          </Switch>
+        </ResponsiveDrawer>
       </BrowserRouter>
     </Container>
   )

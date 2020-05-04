@@ -23,6 +23,7 @@ import RemoveUserButton from './RemoveUserButton'
 import LoggedInText from './LoggedInText'
 import PeopleIcon from '@material-ui/icons/People'
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks'
+import { Grid } from '@material-ui/core'
 
 
 
@@ -30,12 +31,12 @@ const drawerWidth = 140
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: 'flex-wrap',
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
-      flexShrink: 0,
+      flexShrink: 9,
     },
   },
   appBar: {
@@ -52,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
+  toolbarRight: {
+    marginLeft: 'auto'
+  },
   drawerPaper: {
     width: drawerWidth,
   },
@@ -134,10 +138,14 @@ function ResponsiveDrawer(props) {
           <Typography spacing={15} variant="h6" noWrap>
                   Blogs
           </Typography>
-          <LoggedInText/>
+          <div className={classes.toolbarRight}>
+            <Grid edge="end">
+              <LoggedInText/>
+            </Grid>
+          </div>
         </Toolbar>
       </AppBar>
-      <nav className={classes.drawer} aria-label="mailbox folders">
+      <nav className={classes.drawer} >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
           <Drawer
@@ -161,13 +169,17 @@ function ResponsiveDrawer(props) {
             classes={{
               paper: classes.drawerPaper,
             }}
-            variant="permanent"
+            variant="persistent"
             open
           >
             {drawer}
           </Drawer>
         </Hidden>
       </nav>
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        {props.children}
+      </main>
     </div>
   )
 }
