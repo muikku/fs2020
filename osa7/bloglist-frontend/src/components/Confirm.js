@@ -5,6 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import { Button } from '@material-ui/core'
 
 const Confirm = ({ buttonText, dialogTitle, dialogText, confirmButtonName, cancelButtonName, action }) => {
   const [open, setOpen] = React.useState(false)
@@ -40,12 +41,12 @@ const Confirm = ({ buttonText, dialogTitle, dialogText, confirmButtonName, cance
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Typography variant="contained" onClick={handleConfirmed} color="secondary">
+          <Button variant="contained" onClick={handleConfirmed} color="secondary">
             {confirmButtonName}
-          </Typography>
-          <Typography variant="contained" onClick={handleClose} color="primary" autoFocus>
+          </Button>
+          <Button variant="contained" onClick={handleClose} color="primary" autoFocus>
             {cancelButtonName}
-          </Typography>
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
