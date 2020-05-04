@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import BlogList from './components/BlogList'
-import Menu from './components/Menu'
 import User from './components/User'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
@@ -13,7 +12,6 @@ import { BrowserRouter, Route,  Switch } from 'react-router-dom'
 import UserList from './components/UserList'
 import Container from '@material-ui/core/Container'
 import ResponsiveDrawer from './components/ResponsiveDrawer'
-import BlogForm from './components/BlogForm'
 import { Grid } from '@material-ui/core'
 /*
   Todo:

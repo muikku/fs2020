@@ -49,13 +49,15 @@ const Blog = () => {
             <Button variant="contained" startIcon={<ThumbUp/>}color="inherit" id='blogLikeButton' onClick={() => dispatch(likeBlog(blog))}>{blog.likes} likes</Button>
 
             {canDelete() ?
-              <Confirm
-                buttonText="Remove"
-                dialogTitle="Delete blog?"
-                dialogText={`Just confirming that you really want to delete ${blog.title} by ${blog.author}.\nThis action cannot be reverted.`}
-                confirmButtonName="Remove"
-                cancelButtonName="Cancel"
-                action={deletePushed}/>
+              <Button variant="outlined" color="secondary" startIcon={<Delete/>} >
+                <Confirm
+                  buttonText="Remove"
+                  dialogTitle="Delete blog?"
+                  dialogText={`Just confirming that you really want to delete ${blog.title} by ${blog.author}.\nThis action cannot be reverted.`}
+                  confirmButtonName="Remove"
+                  cancelButtonName="Cancel"
+                  action={deletePushed}/>
+              </Button>
               :
               <Tooltip title="only owner can delete">
                 <span>
