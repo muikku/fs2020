@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -24,9 +24,9 @@ const Confirm = ({ buttonText, dialogTitle, dialogText, confirmButtonName, cance
 
   return (
     <div>
-      <Button variant="contained" color="primary" onClick={handleClickOpen}>
+      <Typography onClick={handleClickOpen}>
         {buttonText}
-      </Button>
+      </Typography>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -40,12 +40,12 @@ const Confirm = ({ buttonText, dialogTitle, dialogText, confirmButtonName, cance
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" onClick={handleConfirmed} color="secondary">
+          <Typography variant="contained" onClick={handleConfirmed} color="secondary">
             {confirmButtonName}
-          </Button>
-          <Button variant="contained" onClick={handleClose} color="primary" autoFocus>
+          </Typography>
+          <Typography variant="contained" onClick={handleClose} color="primary" autoFocus>
             {cancelButtonName}
-          </Button>
+          </Typography>
         </DialogActions>
       </Dialog>
     </div>

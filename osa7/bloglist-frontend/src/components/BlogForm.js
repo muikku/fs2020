@@ -1,17 +1,15 @@
 import React, { useState } from 'react'
 import { useField } from '../hooks'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import  { createBlog } from '../reducers/blogReducer'
-import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, Tooltip } from '@material-ui/core'
+import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, Typography } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
-import { notify } from '../reducers/notificationReducer'
 
 const BlogForm = () => {
   const dispatch = useDispatch()
 
   const history = useHistory()
 
-  const user = useSelector(state => state.login)
 
   const title = useField('text')
   const author = useField('text')
@@ -33,25 +31,11 @@ const BlogForm = () => {
     setOpen(false)
   }
 
-  const handleUnlogged = () => dispatch(notify('login is required to create blogs', 10, 'info'))
-
-  if(!user){
-    return(
-      <Tooltip title="you must first login to create blogs">
-        <span>
-          <Button  color="inherit" onClick={handleUnlogged} disabled>
-    Create blog
-          </Button>
-        </span>
-      </Tooltip>
-    )
-  }
-
   return (
     <div>
-      <Button  color="inherit" onClick={handleClickOpen}>
-    Create blog
-      </Button>
+      <Typography  color="inherit" onClick={handleClickOpen}>
+    create blog
+      </Typography>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Create blog</DialogTitle>
         <DialogContent>

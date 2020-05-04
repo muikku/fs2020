@@ -44,10 +44,12 @@ usersRouter.delete('/:id', async (request, response) => {
   const user = await User.findById(decodedToken.id)
   const targetedUser = await User.findById(request.params.id)
   if(user._id.toString() === targetedUser._id.toString()){
-    user.blogs.forEach(b => {
-      console.log('blog?: ',b)
-      Blog.findByIdAndRemove(b.id)
-    })
+    if(user.blogs.length > 0){
+      user.blogs.forEach(b => {
+        console.log('blog?: ',b)
+        Blog.findByIdAndRemove(b.id)
+      })
+    }
     await User.findByIdAndRemove(request.params.id)
     return response.status(204).end()
   } else {

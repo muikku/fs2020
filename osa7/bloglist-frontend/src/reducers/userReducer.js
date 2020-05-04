@@ -61,7 +61,7 @@ export const deleteUser = (user) => {
         type:'REMOVE_USER',
         id: user.id
       })
-      user.blogs.forEach(async blog => {
+      user.blogs.forEach(blog => {
         dispatch({
           type: 'DELETE_BLOG',
           data: blog.id
@@ -75,8 +75,7 @@ export const deleteUser = (user) => {
       })
       notifyAndClear(dispatch, `User ${user.name} removed.`)
     } catch (e) {
-      e.response.data.error ?
-        notifyAndClear(dispatch, e.response.data.error, 15, 'error') :
+        notifyAndClear(dispatch, e.response.data.error, 15, 'error') 
         notifyAndClear(dispatch, 'Server is not responding', 15, 'error')
     }
   }
