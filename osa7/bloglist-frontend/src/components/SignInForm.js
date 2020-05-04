@@ -31,10 +31,10 @@ const LoginForm = () => {
   return (
     <div>
       <Button variant="outlined" color="inherit" onClick={handleClickOpen}>
-        Sign In
+        Sign in
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Login</DialogTitle>
+        <DialogTitle id="form-dialog-title">Sign in</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSignIn}>
             <div>

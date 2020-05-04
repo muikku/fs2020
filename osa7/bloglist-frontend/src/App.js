@@ -17,8 +17,8 @@ import Container from '@material-ui/core/Container'
   responsive menu
   finish user view
   menu stuff
-  front: users reducer & service delete
-  history.push when account deleted/created
+  signin title
+  use more custom hooks, at least for services..
 */
 const App = () => {
   const dispatch = useDispatch()
