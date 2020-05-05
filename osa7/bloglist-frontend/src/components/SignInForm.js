@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux'
 import { signIn } from '../reducers/loginReducer'
 import { useField } from '../hooks'
 
-import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core'
+import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, MenuItem } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 
 
 
-const LoginForm = () => {
+const LoginForm = ({ handleClick }) => {
   const history = useHistory()
   const dispatch = useDispatch()
   const username = useField('text')
@@ -18,6 +18,7 @@ const LoginForm = () => {
 
   const handleClickOpen = () => {
     setOpen(true)
+    handleClick()
   }
   const handleClose = () => {
     setOpen(false)
@@ -30,9 +31,9 @@ const LoginForm = () => {
   }
   return (
     <div>
-      <Button variant="outlined" color="inherit" onClick={handleClickOpen}>
+      <MenuItem onClick={handleClickOpen}>
         Sign in
-      </Button>
+      </MenuItem>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Sign in</DialogTitle>
         <DialogContent>

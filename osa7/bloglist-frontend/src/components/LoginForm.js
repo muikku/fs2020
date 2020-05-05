@@ -4,11 +4,11 @@ import { login } from '../reducers/loginReducer'
 import { notify } from '../reducers/notificationReducer'
 import { useField } from '../hooks'
 
-import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core'
+import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, MenuItem } from '@material-ui/core'
 
 
 
-const LoginForm = () => {
+const LoginForm = ({ handleClick }) => {
   const dispatch = useDispatch()
   const username = useField('text')
   const password = useField('password')
@@ -16,6 +16,7 @@ const LoginForm = () => {
 
   const handleClickOpen = () => {
     setOpen(true)
+    handleClick()
   }
   const handleClose = () => {
     setOpen(false)
@@ -35,9 +36,9 @@ const LoginForm = () => {
   }
   return (
     <div>
-      <Button variant="outlined" color="inherit" onClick={handleClickOpen}>
+      <MenuItem onClick={handleClickOpen}>
         Login
-      </Button>
+      </MenuItem>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Login</DialogTitle>
         <DialogContent>

@@ -1,18 +1,19 @@
 import React from 'react'
 import { logout } from '../reducers/loginReducer'
 import { useDispatch } from 'react-redux'
-import { Typography } from '@material-ui/core'
+import { MenuItem } from '@material-ui/core'
 
 
-const Logout = () => {
+const Logout = ({ handleClick }) => {
   const dispatch = useDispatch()
   const handleLogout = () => {
     dispatch(logout())
+    handleClick()
   }
   return (
-    <Typography color="inherit" onClick={handleLogout}>
+    <MenuItem onClick={handleLogout}>
       logout
-    </Typography>
+    </MenuItem>
   )
 }
 

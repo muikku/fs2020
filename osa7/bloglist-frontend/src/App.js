@@ -11,7 +11,7 @@ import { loginFromLocalStorage } from './reducers/loginReducer'
 import { BrowserRouter, Route,  Switch } from 'react-router-dom'
 import UserList from './components/UserList'
 import Container from '@material-ui/core/Container'
-import ResponsiveDrawer from './components/ResponsiveDrawer'
+import AppBar from './components/AppBar'
 /*
   Todo:
   persistent menu + icon
@@ -39,15 +39,14 @@ const App = () => {
     <Container >
       <BrowserRouter>
         <Notification />
-        <ResponsiveDrawer >
-          <Switch>
-            <Route path='/blogs/:id'> <Blog /> </Route>
-            <Route path='/blogs'> <BlogList /> </Route>
-            <Route path='/users/:id'> <User /> </Route>
-            <Route path='/users'> <UserList /> </Route>
-            <Route path='/'> <BlogList /> </Route>
-          </Switch>
-        </ResponsiveDrawer>
+        <AppBar/>
+        <Switch>
+          <Route path='/blogs/:id'> <Blog /> </Route>
+          <Route path='/blogs'> <BlogList /> </Route>
+          <Route path='/users/:id'> <User /> </Route>
+          <Route path='/users'> <UserList /> </Route>
+          <Route path='/'> <BlogList /> </Route>
+        </Switch>
       </BrowserRouter>
     </Container>
   )
