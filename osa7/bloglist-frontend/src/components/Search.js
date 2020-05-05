@@ -5,6 +5,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
 import { fade, makeStyles } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import SearchIcon from '@material-ui/icons/Search'
+import { useHistory } from 'react-router-dom'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -55,24 +56,40 @@ const useStyles = makeStyles((theme) => ({
 }))
 export default function Search() {
   const blogs = useSelector(state => state.blogs)
+  const users = useSelector(state => state.users)
+  const combined = blogs.concat(users)
+  const history = useHistory()
   const classes = useStyles()
+  const handleOnChange = ({ target }) => {
+    const blogFound = blogs.find(b => b.title === target.value)
+    const userFound = users.find(u => u.username === target.value)
+    if(blogFound){
+      history.push(`/blogs/${blogFound.id}`)
+    }
+    if(userFound){
+      history.push(`/users/${userFound.id}`)
+    }
+  }
+
   return (
     <Autocomplete
       freeSolo
-      id="free-solo-2-demo"
+      id="autocomplete-search"
       disableClearable
-      options={blogs.map(b => b.title)}
+      options={combined}
+      getOptionLabel={ option => option.title || option.username || option}
       classes={{ input: classes.inputInput, root: classes.root }}
-      renderInput={(params) => (console.log(params),
-      <div className={classes.search}>
-        <div className={classes.searchIcon}>
-          <SearchIcon />
+      renderInput={(params) => (
+        <div className={classes.search}>
+          <div className={classes.searchIcon}>
+            <SearchIcon />
+          </div>
+          <TextField
+            {...params}
+            InputProps={{ ...params.InputProps, type: 'search' }}
+            onSelect={handleOnChange}
+          />
         </div>
-        <TextField
-          {...params}
-        />
-      </div>
-
       )}
     />
   )

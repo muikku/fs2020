@@ -22,7 +22,7 @@ const RemoveUserButton = ({ handleClick }) => {
   return(
     <div>
       <Confirm
-        buttonText={<MenuItem onClick={() => handleClick()}>remove</MenuItem>}
+        buttonText={<MenuItem onClick={() => handleClick()}>Remove</MenuItem>}
         dialogTitle="Remove accout"
         dialogText={`You are about to delete your account ${loggedUser.name}. All your blogs and information will be removed. This action cannot be reverted.`}
         confirmButtonName="Remove Account"

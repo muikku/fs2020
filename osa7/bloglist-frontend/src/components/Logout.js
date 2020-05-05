@@ -12,7 +12,7 @@ const Logout = ({ handleClick }) => {
   }
   return (
     <MenuItem onClick={handleLogout}>
-      logout
+      Logout
     </MenuItem>
   )
 }
