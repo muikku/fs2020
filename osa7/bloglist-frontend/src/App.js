@@ -13,13 +13,7 @@ import { BrowserRouter, Route,  Switch } from 'react-router-dom'
 import UserList from './components/UserList'
 import Container from '@material-ui/core/Container'
 import AppBar from './components/AppBar'
-/*
-  Todo:
-  persistent menu + icon
-  clicking drawer obj closes it
-  login and sign in styles
-  use more custom hooks, at least for services..
-*/
+
 const App = () => {
   const dispatch = useDispatch()
 
