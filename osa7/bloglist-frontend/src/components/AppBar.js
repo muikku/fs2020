@@ -1,9 +1,8 @@
 import React from 'react'
-import { AppBar, Toolbar, IconButton, Typography, InputBase, MenuItem, Menu, fade, makeStyles } from '@material-ui/core'
+import { AppBar, Toolbar, IconButton, Typography, MenuItem, Menu, fade, makeStyles } from '@material-ui/core'
 import {  AccountCircle } from '@material-ui/icons/'
 import PeopleIcon from '@material-ui/icons/People'
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks'
-import SearchIcon from '@material-ui/icons/Search'
 import { Link } from 'react-router-dom'
 import Logout from './Logout'
 import LoginForm from './LoginForm'
@@ -12,11 +11,13 @@ import { useSelector } from 'react-redux'
 import RemoveUserButton from './RemoveUserButton'
 import LoggedInText from './LoggedInText'
 import SwipeableTemporaryDrawer from './SwipeableTemporaryDrawer'
+import Search from './Search'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
-    marginBottom: 28
+    marginBottom: 25,
+    spacing: 700
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -70,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
     },
   },
+  toolbar: theme.mixins.toolbar,
   sectionMobile: {
     display: 'flex',
     [theme.breakpoints.up('md')]: {
@@ -81,7 +83,6 @@ const useStyles = makeStyles((theme) => ({
 export default function PrimarySearchAppBar() {
   const classes = useStyles()
   const user = useSelector(state => state.login)
-
 
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
@@ -157,7 +158,8 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static" >
+      <div className={classes.toolbar} />
+      <AppBar position="fixed" >
         <Toolbar>
           <div className={classes.sectionMobile}>
             <SwipeableTemporaryDrawer
@@ -167,19 +169,9 @@ export default function PrimarySearchAppBar() {
           <Typography className={classes.title} variant="h6" noWrap>
             Blogs
           </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
+
+          <Search/>
+
           <div className={classes.sectionDesktop}>
             <IconButton color="inherit" component={Link} to="/blogs">
               <LibraryBooksIcon/> <Typography>Blogs</Typography>
