@@ -1,28 +1,22 @@
 import React from 'react'
-import { fade, makeStyles } from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import IconButton from '@material-ui/core/IconButton'
-import Typography from '@material-ui/core/Typography'
-import InputBase from '@material-ui/core/InputBase'
-import MenuItem from '@material-ui/core/MenuItem'
-import Menu from '@material-ui/core/Menu'
-import MenuIcon from '@material-ui/icons/Menu'
+import { AppBar, Toolbar, IconButton, Typography, InputBase, MenuItem, Menu, fade, makeStyles } from '@material-ui/core'
+import {  AccountCircle } from '@material-ui/icons/'
+import PeopleIcon from '@material-ui/icons/People'
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks'
 import SearchIcon from '@material-ui/icons/Search'
-import AccountCircle from '@material-ui/icons/AccountCircle'
-import AddCircleIcon from '@material-ui/icons/AddCircle'
-import MoreIcon from '@material-ui/icons/MoreVert'
+import { Link } from 'react-router-dom'
 import Logout from './Logout'
 import LoginForm from './LoginForm'
 import SignInForm from './SignInForm'
 import { useSelector } from 'react-redux'
-import BlogForm from './BlogForm'
 import RemoveUserButton from './RemoveUserButton'
 import LoggedInText from './LoggedInText'
+import SwipeableTemporaryDrawer from './SwipeableTemporaryDrawer'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
+    marginBottom: 28
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -109,10 +103,6 @@ export default function PrimarySearchAppBar() {
     handleMobileMenuClose()
   }
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget)
-  }
-
   const menuId = 'primary-search-account-menu'
   const renderMenu = (
     <Menu
@@ -150,16 +140,6 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {user &&
-      <div>
-        <MenuItem>
-          <IconButton aria-label="create blog" color="inherit">
-            <AddCircleIcon />
-          </IconButton>
-          <BlogForm/>
-        </MenuItem>
-      </div>
-      }
 
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -177,16 +157,13 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="static" >
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
+          <div className={classes.sectionMobile}>
+            <SwipeableTemporaryDrawer
+              styleThing={classes.menuButton}
+            />
+          </div>
           <Typography className={classes.title} variant="h6" noWrap>
             Blogs
           </Typography>
@@ -203,34 +180,26 @@ export default function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-          <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <AddCircleIcon />
-              <div></div>
+            <IconButton color="inherit" component={Link} to="/blogs">
+              <LibraryBooksIcon/> <Typography>Blogs</Typography>
             </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
+            <IconButton color="inherit" component={Link} to="/users">
+              <PeopleIcon /> <Typography>People</Typography>
             </IconButton>
           </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </div>
+          <div className={classes.grow} />
+          <IconButton
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            onClick={handleProfileMenuOpen}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

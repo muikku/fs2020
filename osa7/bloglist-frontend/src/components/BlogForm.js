@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { useField } from '../hooks'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import  { createBlog } from '../reducers/blogReducer'
-import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, Typography } from '@material-ui/core'
+import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
+import FabAnimated from './FabAnimated'
 
 const BlogForm = () => {
   const dispatch = useDispatch()
-
+  const user = useSelector(state => state.login)
   const history = useHistory()
-
 
   const title = useField('text')
   const author = useField('text')
@@ -33,9 +33,7 @@ const BlogForm = () => {
 
   return (
     <div>
-      <Typography  color="inherit" onClick={handleClickOpen}>
-    create blog
-      </Typography>
+      <FabAnimated on={user} handleClick={handleClickOpen}/>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Create blog</DialogTitle>
         <DialogContent>

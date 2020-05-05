@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import BlogList from './components/BlogList'
 import User from './components/User'
 import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/userReducer'
@@ -40,6 +41,7 @@ const App = () => {
       <BrowserRouter>
         <Notification />
         <AppBar/>
+        <BlogForm/>
         <Switch>
           <Route path='/blogs/:id'> <Blog /> </Route>
           <Route path='/blogs'> <BlogList /> </Route>
