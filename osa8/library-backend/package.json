@@ -1,0 +1,25 @@
+{
+  "name": "library-backend",
+  "version": "1.0.0",
+  "description": "helsinki university fullstack exercise",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/muikku/fs2020/osa8/library-backend"
+  },
+  "keywords": [
+    "graphql"
+  ],
+  "author": "Markus Muinonen",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.13.0",
+    "graphql": "^15.0.0",
+    "nodemon": "^2.0.3",
+    "uuid": "^8.0.0"
+  }
+}
