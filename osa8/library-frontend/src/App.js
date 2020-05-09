@@ -4,6 +4,8 @@ import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 
+import { ApolloClient, HttpLink, InMemoryCache, gql } from '@apollo/client'
+
 const App = () => {
   const [page, setPage] = useState('authors')
 
