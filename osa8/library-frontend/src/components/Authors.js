@@ -14,11 +14,11 @@ const Authors = (props) => {
   if(authors.error){
     console.log('error :', authors.error.message)
   }
+
   if(authors.loading){
     return <div>loading...</div>
   }
-
-  console.log(authors)
+  
   return (
     <div>
       <h2>authors</h2>
