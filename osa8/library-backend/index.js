@@ -5,7 +5,6 @@ const Book = require('./models/book')
 const Author = require('./models/author')
 const jwt = require('jsonwebtoken')
 const secret = process.env.SECRET
-const { v1: uuidv1 } = require('uuid')
 
 mongoose.set('useFindAndModify', false)
 
@@ -73,8 +72,8 @@ const resolvers = {
       try{
         const author = await Author.findById(root.author)
         return author
-      } catch (error) {
-        console.log('error: ', error.message)
+      } catch (error){
+        console.log(error.message)
       }
     }
   },
