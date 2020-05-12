@@ -13,7 +13,7 @@ const Login = ({setToken, setPage, show}) => {
   })
 
   useEffect(() => {
-    if( result.data) {
+    if( result.data ) {
       setPage('books')
       const token = result.data.login.value
       setToken(token)
