@@ -16,16 +16,20 @@ const App = () => {
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
-        <button onClick={() => setPage('add')}>add book</button>
+        
         {!token ? 
           <button onClick={() => setPage('login')}>login</button>
           :
-          <Logout setToken={setToken}/>
+          <span>
+            <button onClick={() => setPage('add')}>add book</button>
+            <Logout setToken={setToken}/>
+          </span>         
         }
         
       </div>
 
       <Authors
+        token={token}
         show={page === 'authors'}
       />
 
