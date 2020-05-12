@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import Login from './components/Login'
+import Logout from './components/Logout'
 import NewBook from './components/NewBook'
 
 const App = () => {
@@ -16,7 +17,12 @@ const App = () => {
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
         <button onClick={() => setPage('add')}>add book</button>
-        {!token && <button onClick={() => setPage('login')}>login</button>}
+        {!token ? 
+          <button onClick={() => setPage('login')}>login</button>
+          :
+          <Logout setToken={setToken}/>
+        }
+        
       </div>
 
       <Authors
@@ -31,7 +37,11 @@ const App = () => {
         show={page === 'add'}
       />
 
-      {!token && <Login setToken={setToken} setPage={setPage} show={page === 'login'} />}
+      <Login 
+        setToken={setToken} 
+        setPage={setPage} 
+        show={page === 'login'} 
+      />
 
     </div>
   )

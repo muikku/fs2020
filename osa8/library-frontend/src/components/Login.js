@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/client'
 import { LOGIN } from '../queries'
 
-const Login = ({setToken, setPage}) => {
+const Login = ({setToken, setPage, show}) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -25,6 +25,10 @@ const Login = ({setToken, setPage}) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     login({ variables: { username, password } })
+  }
+
+  if (!show) {
+    return null
   }
 
   return (
