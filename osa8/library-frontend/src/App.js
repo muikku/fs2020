@@ -5,6 +5,7 @@ import Books from './components/Books'
 import Login from './components/Login'
 import Logout from './components/Logout'
 import NewBook from './components/NewBook'
+import Recommendations from './components/Recommendations'
 
 const App = () => {
   const [page, setPage] = useState('authors')
@@ -23,6 +24,7 @@ const App = () => {
           <span>
             <button onClick={() => setPage('add')}>add book</button>
             <Logout setToken={setToken}/>
+            <button onClick={() => setPage('recommend')}>recommend</button>
           </span>         
         }
         
@@ -45,6 +47,10 @@ const App = () => {
         setToken={setToken} 
         setPage={setPage} 
         show={page === 'login'} 
+      />
+
+      <Recommendations 
+        show={page === 'recommend'}
       />
 
     </div>
