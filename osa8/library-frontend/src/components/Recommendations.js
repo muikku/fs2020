@@ -12,14 +12,12 @@ const Recommendations = ({ show, genre }) => {
       setFavorite(genre)
       books({ variables: { genre }})
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genre, show])
-
-  useEffect(() => {
     if(data){
       setRecoms(data.allBooks)
     }
-  },[data])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [genre, show, books, data])
+
 
   if(!show) return null
 

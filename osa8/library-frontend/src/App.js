@@ -27,9 +27,7 @@ const App = () => {
     }
     if(data && data.me){
       setGenre(data.me.favoriteGenre)
-    } else {
-      setGenre(null)
-    }
+    } 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, data])
 
