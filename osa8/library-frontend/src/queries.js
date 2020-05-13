@@ -8,6 +8,7 @@ const BOOK_DETAILS = gql`
       name
     }
     genres
+    id
   }
 `
 export const BOOK_ADDED = gql`

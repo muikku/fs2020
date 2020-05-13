@@ -6,19 +6,37 @@ import Login from './components/Login'
 import Logout from './components/Logout'
 import NewBook from './components/NewBook'
 import Recommendations from './components/Recommendations'
-import { useLazyQuery, useSubscription } from '@apollo/client'
-import { SELF, BOOK_ADDED } from './queries'
+import { useLazyQuery, useSubscription, useApolloClient } from '@apollo/client'
+import { SELF, BOOK_ADDED, ALL_BOOKS } from './queries'
 
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(null)
   const [genre, setGenre] = useState(null)
   const [getGenre, {data}] = useLazyQuery(SELF)
+  const client = useApolloClient()
+
+  const updateCacheWith = (addedBook) => {
+    console.log('added book: ', addedBook)
+    console.log('added book id ', addedBook.id)
+    const includedIn = (set, object) => 
+    set.map(b => b.id).includes(object.id)
+
+    const dataInStore = client.readQuery({ query: ALL_BOOKS })
+    console.log('all books data in store: ', dataInStore.allBooks)
+    if(!includedIn(dataInStore.allBooks, addedBook)) {
+      client.writeQuery({
+        query: ALL_BOOKS,
+        data: { allBooks : dataInStore.allBooks.concat(addedBook)}
+      })
+    }
+
+  }
 
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
       const addedBook = subscriptionData.data.bookAdded
-      window.alert(`new book! =>  ${addedBook.title}`)
+      updateCacheWith(addedBook)
     }
   })
 

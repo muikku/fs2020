@@ -26,6 +26,7 @@ const typeDefs = gql`
       published: Int!
       author: Author!
       genres: [String!]
+      id: ID!
   }
   type Author {
       name: String!
@@ -108,7 +109,8 @@ const resolvers = {
       } catch (error){
         console.log(error.message)
       }
-    }
+    },
+    id: (root) => root._id
   },
   Author:  {
     name: (root) => root.name,
