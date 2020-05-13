@@ -6,16 +6,32 @@ import Login from './components/Login'
 import Logout from './components/Logout'
 import NewBook from './components/NewBook'
 import Recommendations from './components/Recommendations'
+import { useLazyQuery } from '@apollo/client'
+import { SELF } from './queries'
 
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(null)
+  const [genre, setGenre] = useState(null)
+  const [getGenre, {data}] = useLazyQuery(SELF)
   useEffect(() => {
     const tokenInStorage = localStorage.getItem('logged-library-user')
     if(tokenInStorage){
       setToken(tokenInStorage)
     }
   },[])
+
+  useEffect(() => {
+    if(token){
+      getGenre()
+    }
+    if(data && data.me){
+      setGenre(data.me.favoriteGenre)
+    } else {
+      setGenre(null)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token, data])
 
 
   return (
@@ -57,6 +73,7 @@ const App = () => {
 
       <Recommendations 
         show={page === 'recommend'}
+        genre={genre}
       />
 
     </div>

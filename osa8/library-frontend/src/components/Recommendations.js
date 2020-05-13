@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { useQuery, useLazyQuery } from '@apollo/client'
-import { ALL_BOOKS, SELF } from '../queries'
+import { useLazyQuery } from '@apollo/client'
+import { ALL_BOOKS } from '../queries'
 
-const Recommendations = ({ show }) => {
-  const genre = useQuery(SELF)
+const Recommendations = ({ show, genre }) => {
   const [favorite, setFavorite] = useState(null)
   const [books, {data}] = useLazyQuery(ALL_BOOKS)
   const [recoms, setRecoms] = useState(null)
 
   useEffect(() => {
-    if(genre.data && show && genre.data.me){
-      setFavorite(genre.data.me.favoriteGenre)
-      books({ variables: { genre: genre.data.me.favoriteGenre }})
+    if(genre && show ){
+      setFavorite(genre)
+      books({ variables: { genre }})
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genre.data, show])
+  }, [genre, show])
 
   useEffect(() => {
     if(data){
@@ -24,7 +23,7 @@ const Recommendations = ({ show }) => {
 
   if(!show) return null
 
-  if(!genre.data || !data || !recoms) return <div>loading...</div>
+  if(!genre || !data || !recoms) return <div>loading...</div>
 
   return (
     <div>
