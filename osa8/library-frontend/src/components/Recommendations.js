@@ -1,34 +1,36 @@
-import React from 'react'
-import { useQuery } from '@apollo/client'
+import React, { useEffect, useState } from 'react'
+import { useQuery, useLazyQuery } from '@apollo/client'
 import { ALL_BOOKS, SELF } from '../queries'
 
-const Recommendations = ({show }) => {
+const Recommendations = ({ show }) => {
+  const genre = useQuery(SELF)
+  const [favorite, setFavorite] = useState(null)
+  const [books, {data}] = useLazyQuery(ALL_BOOKS)
+  const [recoms, setRecoms] = useState(null)
 
-  const books = useQuery(ALL_BOOKS)
-  const usersFavoriteGenre = useQuery(SELF)
+  useEffect(() => {
+    if(genre.data){
+      setFavorite(genre.data.me.favoriteGenre)
+      books({ variables: { genre: genre.data.me.favoriteGenre }})
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [genre.data])
 
-  if (!show) {
-    return null
-  }
+  useEffect(() => {
+    if(data){
+      setRecoms(data.allBooks)
+    }
+  },[data])
 
-  if(books.loading || usersFavoriteGenre.loading){
-    return(
-    <div>loading...</div>
-    )
-  }
+  if(!show) return null
 
-  if(books.error || usersFavoriteGenre.error){
-    console.log('error: ', books.error.message
-    )
-  }
-
-  const favgenre = usersFavoriteGenre.data.me.favoriteGenre
+  if(!genre.data || !data) return null
 
   return (
     <div>
       <h2>recommendations</h2>
       <div><span></span></div>
-      <div>books in your favorite genre <strong>{favgenre}</strong></div> 
+      <div>books in your favorite genre <strong>{favorite}</strong></div> 
       <div><span></span></div>
       <table>
         <tbody>
@@ -41,16 +43,14 @@ const Recommendations = ({show }) => {
               published
             </th>
           </tr>
-          {
-            books.data.allBooks
-            .filter(b => b.genres.includes(favgenre))
+          {recoms
             .map(a =>
               <tr key={a.title}>
                 <td>{a.title}</td>
                 <td>{a.author.name}</td>
                 <td>{a.published}</td>
               </tr>
-          )}
+            )}
         </tbody>
       </table>
     </div>
