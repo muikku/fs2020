@@ -9,12 +9,12 @@ const Recommendations = ({ show }) => {
   const [recoms, setRecoms] = useState(null)
 
   useEffect(() => {
-    if(genre.data){
+    if(genre.data && show && genre.data.me){
       setFavorite(genre.data.me.favoriteGenre)
       books({ variables: { genre: genre.data.me.favoriteGenre }})
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genre.data])
+  }, [genre.data, show])
 
   useEffect(() => {
     if(data){
@@ -24,7 +24,7 @@ const Recommendations = ({ show }) => {
 
   if(!show) return null
 
-  if(!genre.data || !data) return null
+  if(!genre.data || !data || !recoms) return <div>loading...</div>
 
   return (
     <div>

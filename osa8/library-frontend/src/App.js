@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import Login from './components/Login'
@@ -10,6 +10,12 @@ import Recommendations from './components/Recommendations'
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(null)
+  useEffect(() => {
+    const tokenInStorage = localStorage.getItem('logged-library-user')
+    if(tokenInStorage){
+      setToken(tokenInStorage)
+    }
+  },[])
 
 
   return (
@@ -23,7 +29,7 @@ const App = () => {
           :
           <span>
             <button onClick={() => setPage('add')}>add book</button>
-            <Logout setToken={setToken}/>
+            <Logout setPage={setPage} setToken={setToken}/>
             <button onClick={() => setPage('recommend')}>recommend</button>
           </span>         
         }
