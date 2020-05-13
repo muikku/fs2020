@@ -6,14 +6,22 @@ import Login from './components/Login'
 import Logout from './components/Logout'
 import NewBook from './components/NewBook'
 import Recommendations from './components/Recommendations'
-import { useLazyQuery } from '@apollo/client'
-import { SELF } from './queries'
+import { useLazyQuery, useSubscription } from '@apollo/client'
+import { SELF, BOOK_ADDED } from './queries'
 
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(null)
   const [genre, setGenre] = useState(null)
   const [getGenre, {data}] = useLazyQuery(SELF)
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      const addedBook = subscriptionData.data.bookAdded
+      window.alert(`new book! =>  ${addedBook.title}`)
+    }
+  })
+
   useEffect(() => {
     const tokenInStorage = localStorage.getItem('logged-library-user')
     if(tokenInStorage){
