@@ -32,6 +32,7 @@ const typeDefs = gql`
       name: String!
       born: Int
       bookCount: Int
+      id: ID!
   }
 
   type User {
@@ -116,7 +117,8 @@ const resolvers = {
     name: (root) => root.name,
     bookCount: (root) => {
       return Book.collection.countDocuments({ author: root._id })
-    }
+    },
+    id: (root) => root._id
   },
   Mutation: {
     addBook: async (root, args, context) => {
@@ -143,6 +145,7 @@ const resolvers = {
         try{
           await newAuthor.save()
           await book.save()
+          pubsub.publish('BOOK_ADDED', { bookAdded: book})
         } catch (error) {
           throw new UserInputError(error.message, {
             invalidArgs: args,

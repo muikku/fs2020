@@ -6,31 +6,62 @@ import Login from './components/Login'
 import Logout from './components/Logout'
 import NewBook from './components/NewBook'
 import Recommendations from './components/Recommendations'
-import { useLazyQuery, useSubscription, useApolloClient } from '@apollo/client'
-import { SELF, BOOK_ADDED, ALL_BOOKS } from './queries'
+import { useSubscription, useApolloClient, useQuery } from '@apollo/client'
+import { BOOK_ADDED, ALL_BOOKS, ALL_AUTHORS, ALL_GENRES, SELF } from './queries'
 
 const App = () => {
   const [page, setPage] = useState('authors')
   const [token, setToken] = useState(null)
-  const [genre, setGenre] = useState(null)
-  const [getGenre, {data}] = useLazyQuery(SELF)
   const client = useApolloClient()
+  const getGenre = useQuery(SELF)
 
   const updateCacheWith = (addedBook) => {
-    console.log('added book: ', addedBook)
-    console.log('added book id ', addedBook.id)
     const includedIn = (set, object) => 
     set.map(b => b.id).includes(object.id)
 
-    const dataInStore = client.readQuery({ query: ALL_BOOKS })
-    console.log('all books data in store: ', dataInStore.allBooks)
-    if(!includedIn(dataInStore.allBooks, addedBook)) {
+    const author = addedBook.author
+    const genres = addedBook.genres
+
+    const booksInStore = client.readQuery({ query: ALL_BOOKS })
+    const authorsInStore = client.readQuery({ query: ALL_AUTHORS })
+    const genresInStore = client.readQuery({ query: ALL_GENRES })
+
+    if(!includedIn(booksInStore.allBooks, addedBook)) {
       client.writeQuery({
         query: ALL_BOOKS,
-        data: { allBooks : dataInStore.allBooks.concat(addedBook)}
+        data: { allBooks : booksInStore.allBooks.concat(addedBook)}
       })
     }
 
+  try{
+    addedBook.genres.forEach(genre => {
+      const booksByGenreInStore = client.readQuery({ query: ALL_BOOKS, variables: { genre: genre } })
+      if((!includedIn(booksByGenreInStore.allBooks, addedBook) && addedBook.genres.includes(genre))) {
+        client.writeQuery({
+          query: ALL_BOOKS, variables: { genre: genre } ,
+          data: { allBooks : booksByGenreInStore.allBooks.concat(addedBook)}
+        })
+      }
+    })
+  } catch (error) {
+      /// i have spent too much time already :D
+    }
+  
+    if(!includedIn(authorsInStore.allAuthors, author)) {
+      client.writeQuery({
+        query: ALL_AUTHORS,
+        data: { allAuthors : authorsInStore.allAuthors.concat(author)}
+      })
+    }
+
+    genres.forEach(genre => {
+      if(!genresInStore.allGenres.includes(genre)) {
+        client.writeQuery({
+          query: ALL_GENRES,
+          data: { allGenres : genresInStore.allGenres.concat(genre)}
+        })
+      }
+    })
   }
 
   useSubscription(BOOK_ADDED, {
@@ -46,16 +77,6 @@ const App = () => {
       setToken(tokenInStorage)
     }
   },[])
-
-  useEffect(() => {
-    if(token){
-      getGenre()
-    }
-    if(data && data.me){
-      setGenre(data.me.favoriteGenre)
-    } 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, data])
 
 
   return (
@@ -97,7 +118,7 @@ const App = () => {
 
       <Recommendations 
         show={page === 'recommend'}
-        genre={genre}
+        getGenre={getGenre}
       />
 
     </div>
