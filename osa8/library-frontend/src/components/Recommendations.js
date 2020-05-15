@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useLazyQuery, useQuery } from '@apollo/client'
-import { ALL_BOOKS, SELF } from '../queries'
+import { useLazyQuery } from '@apollo/client'
+import { ALL_BOOKS } from '../queries'
 
 const Recommendations = ({ show, getGenre }) => {
   const [favorite, setFavorite] = useState(null)

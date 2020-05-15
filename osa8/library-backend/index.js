@@ -31,7 +31,8 @@ const typeDefs = gql`
   type Author {
       name: String!
       born: Int
-      bookCount: Int
+      books: [Book]!
+      bookCount: Int!
       id: ID!
   }
 
@@ -99,13 +100,14 @@ const resolvers = {
       }
       return Book.find(search)
     },
-    allAuthors: () => Author.find({}),
+    allAuthors: () => Author.find({}).populate('books'),
     allGenres: () => Book.distinct( "genres" )
   },
   Book:{
     author: async (root) => {
       try{
         const author = await Author.findById(root.author)
+        author.populate('author')
         return author
       } catch (error){
         console.log(error.message)
@@ -115,14 +117,14 @@ const resolvers = {
   },
   Author:  {
     name: (root) => root.name,
-    bookCount: (root) => {
-      return Book.collection.countDocuments({ author: root._id })
-    },
-    id: (root) => root._id
+    bookCount: (root) => root.books.length,
+    books: (root) => root.books.map(b => Book.findById(b).populate('author')),
+      id: (root) => root._id
   },
   Mutation: {
     addBook: async (root, args, context) => {
         const authorInDb = await Author.findOne({ name: args.author})
+        console.log(args.author)
         const currentUser = context.currentUser
         if(!currentUser){
           throw new AuthenticationError("not authenticated")
@@ -131,22 +133,30 @@ const resolvers = {
             const book = new Book({ ...args, author: authorInDb })
             try{
               await book.save()
+              authorInDb.books = authorInDb.books.concat(book.id)  
+              await authorInDb.save()
+              pubsub.publish('BOOK_ADDED', { bookAdded: book})
+              return book
             } catch (error){
               throw new UserInputError(error.message, {
                 invalidArgs: args,
               })
             }
 
-            pubsub.publish('BOOK_ADDED', { bookAdded: book})
-            return book
+          
         }
-        const newAuthor = new Author({ name: args.author })
+        const newAuthor = new Author({ name: args.author, books: [] })
         const book = new Book({ ...args, author: newAuthor })
         try{
           await newAuthor.save()
           await book.save()
-          pubsub.publish('BOOK_ADDED', { bookAdded: book})
+
+          newAuthor.books = newAuthor.books.concat(book.id)
+          await newAuthor.save()
+
+          pubsub.publish('BOOK_ADDED', { bookAdded: book })
         } catch (error) {
+          console.log(error)
           throw new UserInputError(error.message, {
             invalidArgs: args,
           })

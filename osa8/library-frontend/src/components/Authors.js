@@ -50,7 +50,7 @@ const Authors = (props) => {
               books
             </th>
           </tr>
-          {authors.data.allAuthors.map(a =>
+          {authors.data && authors.data.allAuthors.map(a =>
             <tr key={a.name}>
               <td>{a.name}</td>
               <td>{a.born}</td>
@@ -60,7 +60,7 @@ const Authors = (props) => {
         </tbody>
       </table>
       {
-        props.token &&
+        props.token && authors.data &&
           <div>
             <h2>Set birthyear</h2>
             <form onSubmit={onFormSubmit}>
