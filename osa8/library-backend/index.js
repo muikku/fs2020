@@ -57,6 +57,7 @@ const typeDefs = gql`
 
   type Subscription {
     bookAdded: Book!
+    authorEdited: Author!
   }
 
   type Mutation {
@@ -98,21 +99,14 @@ const resolvers = {
       } else if ( args.genre){
         search = { ...search, genres: args.genre }
       }
-      return Book.find(search)
+      return Book.find(search).populate('author')
     },
     allAuthors: () => Author.find({}).populate('books'),
     allGenres: () => Book.distinct( "genres" )
   },
   Book:{
-    author: async (root) => {
-      try{
-        const author = await Author.findById(root.author)
-        author.populate('author')
-        return author
-      } catch (error){
-        console.log(error.message)
-      }
-    },
+    author: (root) => Author.findById(root.author).populate('books')
+    ,
     id: (root) => root._id
   },
   Author:  {
@@ -124,7 +118,6 @@ const resolvers = {
   Mutation: {
     addBook: async (root, args, context) => {
         const authorInDb = await Author.findOne({ name: args.author})
-        console.log(args.author)
         const currentUser = context.currentUser
         if(!currentUser){
           throw new AuthenticationError("not authenticated")
@@ -152,6 +145,9 @@ const resolvers = {
           await book.save()
 
           newAuthor.books = newAuthor.books.concat(book.id)
+          book.author = newAuthor.id
+
+          await book.save()
           await newAuthor.save()
 
           pubsub.publish('BOOK_ADDED', { bookAdded: book })
@@ -172,6 +168,7 @@ const resolvers = {
         authorInDb.born = args.setBornTo
         try{
           await authorInDb.save()
+          pubsub.publish('AUTHOR_EDITED', { authorEdited: authorInDb})
         } catch (error) {
           throw new UserInputError(error.message, {
             invalidArgs: args
@@ -206,6 +203,9 @@ const resolvers = {
   Subscription: {
     bookAdded: {
       subscribe: () => pubsub.asyncIterator(['BOOK_ADDED'])
+    },
+    authorEdited: {
+      subscribe: () => pubsub.asyncIterator(['AUTHOR_EDITED'])
     }
   }
 }

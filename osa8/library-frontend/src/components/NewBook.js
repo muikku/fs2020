@@ -44,6 +44,8 @@ const NewBook = (props) => {
         <div>
           title
           <input
+            required
+            type='text'
             value={title}
             onChange={({ target }) => setTitle(target.value)}
           />
@@ -51,6 +53,8 @@ const NewBook = (props) => {
         <div>
           author
           <input
+            required
+            type='text'
             value={author}
             onChange={({ target }) => setAuhtor(target.value)}
           />
@@ -59,12 +63,14 @@ const NewBook = (props) => {
           published
           <input
             type='number'
+            required
             value={published}
             onChange={({ target }) => setPublished(target.value)}
           />
         </div>
         <div>
           <input
+            type='text'
             value={genre}
             onChange={({ target }) => setGenre(target.value)}
           />
