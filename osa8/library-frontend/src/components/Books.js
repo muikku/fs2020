@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery, useLazyQuery } from '@apollo/client'
-import { ALL_BOOKS, ALL_GENRES } from '../queries'
+import { ALL_BOOKS, BOOKS_BY_GENRE, ALL_GENRES } from '../queries'
 
 const Books = ({show}) => {
   const [genre, setGenre] = useState(null)
   const genres = useQuery(ALL_GENRES)
-  const [getBooks, { data }] = useLazyQuery(ALL_BOOKS)
+  const getBooks = useQuery(ALL_BOOKS)
+  const [getBooksByGenre, {data}] = useLazyQuery(BOOKS_BY_GENRE)
   const [books, setBooks] = useState(null)
   useEffect(() => {
     if(genre){
-          getBooks({ variables: { genre }})
-    } else {
-        getBooks()
-    }
-    if(data){
+          getBooksByGenre({ variables: { genre }})
+    } else if (!genre && getBooks.data){
+      setBooks(getBooks.data.allBooks)
+    } 
+    if (genre && data){
       setBooks(data.allBooks)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [genre, data])
-
-
+  }, [ genre, getBooks.data, data ])
 
   if(!show) return null
 
