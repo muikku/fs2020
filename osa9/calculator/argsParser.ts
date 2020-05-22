@@ -5,7 +5,7 @@ export const parseArgs = (args: Array<string>, requiredLength: Number | null) =>
   } else {
     if(args.length < 4) throw new Error('Not enough arguments!');
   }
-    const parsedArgs = args.filter((value, index) => index > 1).map(value => Number(value))
+    const parsedArgs = args.filter((_value, index) => index > 1).map(value => Number(value))
     if(parsedArgs.includes(NaN)){
       throw new Error('Provided values were not numbers!');
     }

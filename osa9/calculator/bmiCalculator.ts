@@ -11,7 +11,7 @@ const calculateBmi = (heigth: number, weight: number) => {
   if(between(bmi, 30, 35)) return "Obese Class I (Moderately obese)";
   if(between(bmi, 35, 40)) return "Obese Class II (Severely obese)";
   if(between(bmi, 40,1000)) return "Obese Class III (Very severely obese)";
-  
+  return 'Inhuman.'
 }
 try{
   const parsed = parseArgs(process.argv, 4);
