@@ -1,6 +1,6 @@
 import { parseArgs } from './argsParser';
 
-const calculateBmi = (heigth: number, weight: number) => {
+export const calculateBmi = (heigth: number, weight: number) => {
   const bmi = weight / (Math.pow(heigth/100, 2));
   const between = (value: number, min: number, max: number) => (value >= min && value < max);
   if(between(bmi, 0, 15)) return "Very severely underweight";
@@ -13,11 +13,8 @@ const calculateBmi = (heigth: number, weight: number) => {
   if(between(bmi, 40,1000)) return "Obese Class III (Very severely obese)";
   return 'Inhuman.'
 }
-try{
-  const parsed = parseArgs(process.argv, 4);
-  console.log(calculateBmi(parsed[0], parsed[1]));
-} catch (error) {
-  console.log('error occured: ', error.message);
-}
+
+
+
 
 

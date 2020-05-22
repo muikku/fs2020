@@ -11,3 +11,5 @@ export const parseArgs = (args: Array<string>, requiredLength: Number | null) =>
     }
     return parsedArgs;
 }
+
+export const parseInt = (given: any): number => Number(given);

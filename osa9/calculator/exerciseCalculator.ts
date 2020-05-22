@@ -32,5 +32,3 @@ const calculateExercises = (customerData: Array<number>): exerciseData => {
   }
   return dataToReturn
 }
-
-console.log(calculateExercises(parsed))
