@@ -1,6 +1,4 @@
-import { parseArgs } from './argsParser';
-
-export const calculateBmi = (heigth: number, weight: number) => {
+export const calculateBmi = (heigth: number, weight: number): string => {
   const bmi = weight / (Math.pow(heigth/100, 2));
   const between = (value: number, min: number, max: number) => (value >= min && value < max);
   if(between(bmi, 0, 15)) return "Very severely underweight";
@@ -11,8 +9,8 @@ export const calculateBmi = (heigth: number, weight: number) => {
   if(between(bmi, 30, 35)) return "Obese Class I (Moderately obese)";
   if(between(bmi, 35, 40)) return "Obese Class II (Severely obese)";
   if(between(bmi, 40,1000)) return "Obese Class III (Very severely obese)";
-  return 'Inhuman.'
-}
+  return 'Inhuman.';
+};
 
 
 
