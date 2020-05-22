@@ -12,4 +12,4 @@ export const parseArgs = (args: Array<string>, requiredLength: number | null): A
     return parsedArgs;
 };
 
-export const parseInt = (given: string): number => Number(given);
+export const parseInt = (given: unknown): number => Number(given);
