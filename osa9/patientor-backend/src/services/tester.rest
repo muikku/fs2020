@@ -3,3 +3,15 @@ GET HTTP://localhost:3001/api/diagnoses
 ###
 
 GET HTTP://localhost:3001/api/patients
+
+###
+POST HTTP://localhost:3001/api/patients
+content-type: application/json
+
+{
+      "name": "Darth Weaver",
+      "dateOfBirth": "1931-04-09",
+      "ssn": "090431-8xxx",
+      "gender": "female",
+      "occupation": "Alien-Sith Abomination"
+}
