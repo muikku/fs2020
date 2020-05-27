@@ -10,8 +10,21 @@ const toNewPatientEntry = (object: any): NewPatientEntry => {
     ssn: parseString(object.ssn), 
     gender: parseGender(object.gender),
     occupation: parseString(object.occupation),
+    entries: parseEntries(object.entries)
   };
   return newEntry;
+};
+
+
+
+const parseEntries = (obj: any): Array<string> => {
+  if(!obj){
+    return [];
+  }
+  if(!isArray(obj)){
+    throw new Error(`Unexpected or missing value.`);
+  }
+  return obj;
 };
 
 const isString = (text: any): text is string => 
@@ -23,6 +36,24 @@ const parseString = (obj: any): string => {
   }
 
   return obj;
+};
+
+const isArray = (list: any): list is Array<string> => {
+  if(list instanceof Array){
+    if(list.length > 0){
+      let containsNonString = false;
+
+      for(const obj of list){
+        if(!isString(obj)){
+          containsNonString = true;
+        }
+      }
+      return !containsNonString;
+    }
+    ///its empty array
+    return true;
+  }
+  return false;
 };
 
 const isDate = (date: string): boolean => 

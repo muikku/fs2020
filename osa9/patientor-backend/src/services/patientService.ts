@@ -1,7 +1,7 @@
 import patientData from '../data/patients';
-import { PatientEntryNoSSN, PatientEntry, NewPatientEntry } from '../types';
+import { PatientEntryNoSSN, Patient, NewPatientEntry } from '../types';
 
-const findById = (id: string): PatientEntry | undefined => 
+const findById = (id: string): Patient | undefined => 
 patientData.find( p => p.id === id );
 
 const getEntries = (): PatientEntryNoSSN[] => {
@@ -10,17 +10,19 @@ const getEntries = (): PatientEntryNoSSN[] => {
     name,
     dateOfBirth,
     gender,
-    occupation
+    occupation,
+    entries
   }) => ({
     id: id,
     name: name,
     dateOfBirth: dateOfBirth,
     gender: gender,
-    occupation: occupation
+    occupation: occupation,
+    entries
   }));
 };
 
-const addEntry = ( entry: NewPatientEntry ): PatientEntry => {
+const addEntry = ( entry: NewPatientEntry ): Patient => {
   const newPatientEntry = {
     id: `${entry.toString(), patientData.length+1}`,
     ...entry
