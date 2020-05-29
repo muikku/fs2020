@@ -5,7 +5,7 @@ GET HTTP://localhost:3001/api/diagnoses
 GET HTTP://localhost:3001/api/patients
 
 ###
-GET HTTP://localhost:3001/api/patients/d2773598-f723-11e9-8f0b-362b9e155667
+GET HTTP://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667
 
 ###
 POST HTTP://localhost:3001/api/patients

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NewPatientEntry, Gender } from '../types';
+import { NewPatientEntry, Gender, Entry, Type } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const toNewPatientEntry = (object: any): NewPatientEntry => {
@@ -15,15 +15,17 @@ const toNewPatientEntry = (object: any): NewPatientEntry => {
   return newEntry;
 };
 
+const isEntry = (obj: any): obj is Entry[] => 
+Object.values(Type).includes(obj.type);
 
-
-const parseEntries = (obj: any): Array<string> => {
+const parseEntries = (obj: any): Entry[] => {
   if(!obj){
     return [];
   }
-  if(!isArray(obj)){
-    throw new Error(`Unexpected or missing value.`);
+  if(!isArrayOfEntries(obj)){
+    throw new Error('Unexpected or missing value.');
   }
+  
   return obj;
 };
 
@@ -38,13 +40,13 @@ const parseString = (obj: any): string => {
   return obj;
 };
 
-const isArray = (list: any): list is Array<string> => {
+const isArrayOfEntries = (list: any): list is Array<Entry> => {
   if(list instanceof Array){
     if(list.length > 0){
       let containsNonString = false;
 
       for(const obj of list){
-        if(!isString(obj)){
+        if(!isEntry(obj)){
           containsNonString = true;
         }
       }
