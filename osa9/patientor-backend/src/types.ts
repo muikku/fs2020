@@ -10,19 +10,13 @@ export interface DiagnoseEntry {
 
 export type Diagnosis = Pick<DiagnoseEntry, 'code'>;
 
-export enum Type {
-  HealthCheck = 'HealthCheck',
-  Hospital = 'Hospital',
-  OccupationalHealthcare = 'OccupationalHealthcare'
-}
-
 interface BaseEntry {
   id: string;
   description: string;
   date: string;
   specialist: string;
   diagnosisCodes?: Array<Diagnosis['code']>;
-  type: Type
+  type: string;
 }
 
 export enum HealthCheckRating {
@@ -32,7 +26,8 @@ export enum HealthCheckRating {
   "CriticalRisk" = 3
 }
 
-interface HealthCheckEntry extends BaseEntry {
+export interface HealthCheckEntry extends BaseEntry {
+  type: 'HealthCheck';
   healthCheckRating: HealthCheckRating;
 }
 
@@ -42,6 +37,7 @@ type Discharge = {
 };
 
 interface HospitalEntry extends BaseEntry {
+  type: 'Hospital';
   discharge: Discharge;
 }
 
@@ -51,8 +47,9 @@ type SickLeave = {
 };
 
 interface OccupationalHealthcareEntry extends BaseEntry {
+  type: 'OccupationalHealthcare';
   employerName: string;
-  sickLeave: SickLeave;
+  sickLeave?: SickLeave;
 }
 
 export type Entry =

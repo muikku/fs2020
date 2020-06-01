@@ -18,3 +18,17 @@ content-type: application/json
       "gender": "female",
       "occupation": "Alien-Sith Abomination"
 }
+###
+POST HTTP://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+content-type: application/json
+
+{
+  "id": "fcd59fa6-c4b4-4fec-ac4d-df4fe1f85f62",
+  "date": "2019-08-05",
+  "type": "HealthCheck",
+  "specialist": "MD Mouse",
+  "employerName": "HyPD",
+  "diagnosisCodes": ["Z57.1", "Z74.3", "M51.2"],
+  "description": "Patient mistakenly found himself in a nuclear plant waste site without protection gear. Very minor radiation poisoning. ",
+  "healthCheckRating": 832
+}

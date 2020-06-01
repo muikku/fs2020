@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NewPatientEntry, Gender, Entry, Type } from '../types';
+import { NewPatientEntry, Gender, Entry } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const toNewPatientEntry = (object: any): NewPatientEntry => {
+export const toNewPatientEntry = (object: any): NewPatientEntry => {
   const newEntry: NewPatientEntry = {
     name: parseString(object.name),
     dateOfBirth: parseDate(object.dateOfBirth),
@@ -15,8 +15,61 @@ const toNewPatientEntry = (object: any): NewPatientEntry => {
   return newEntry;
 };
 
-const isEntry = (obj: any): obj is Entry[] => 
-Object.values(Type).includes(obj.type);
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const toNewPatientVisit = (object: any): Entry => {
+  if(!object || !hasType(object)){
+    throw new Error('Expected entry, object or type field missing.');
+  }
+  const basefields = ['description', 'date', 'specialist'];
+  console.log(object.type);
+  switch(object.type){
+    case 'HealthCheck':
+      if(checkManyFields(object, [...basefields, 'healthCheckRating'])){
+        const asEntry: Entry = {
+          ...object
+        };
+        return asEntry;
+      } else {
+        throw new Error('Missing fields on HealthCheck entry.');
+      }
+    case 'Hospital':
+      if(checkManyFields(object, [...basefields, 'discharge'])){
+        const asEntry: Entry = {
+          ...object
+        };
+        return asEntry;
+      } else {
+        throw new Error('Missing fields on Hospital entry.');
+      }
+    case 'OccupationalHealthcare':
+      if(checkManyFields(object, [...basefields, 'employerName'])){
+        const asEntry: Entry = {
+          ...object
+        };
+        return asEntry;
+      } else {
+        throw new Error('Missing fields on OccupationalHealthcare entry.');
+      }
+    default:
+      throw new Error('Unexpected type of entry encountered.');
+  }
+};
+
+const checkManyFields = (obj: any, fields: string[]): obj is Entry => {
+  let containsField = true;
+  fields.forEach(field => {
+    if(!hasField(obj, field)){
+      containsField = false;
+    } 
+  });
+  return containsField;
+};
+
+const hasField = (obj: any, field: string): obj is Entry => Object.keys(obj).includes(field);
+
+const hasType = (obj: any): obj is Entry => {
+  return Object.keys(obj).includes('type');
+};
 
 const parseEntries = (obj: any): Entry[] => {
   if(!obj){
@@ -46,7 +99,7 @@ const isArrayOfEntries = (list: any): list is Array<Entry> => {
       let containsNonString = false;
 
       for(const obj of list){
-        if(!isEntry(obj)){
+        if(!hasType(obj)){
           containsNonString = true;
         }
       }
@@ -77,5 +130,3 @@ const parseGender = (gender: any): Gender => {
   }
   return gender;
 };
-
-export default toNewPatientEntry;

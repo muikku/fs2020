@@ -1,11 +1,12 @@
 import patientData from '../data/patients';
-import { PatientEntryNoSSN, Patient, NewPatientEntry } from '../types';
+import { PatientEntryNoSSN, Patient, NewPatientEntry, Entry } from '../types';
+import { toNewPatientVisit } from '../utils/utils';
 
 const findById = (id: string): Patient | undefined => 
 patientData.find( p => p.id === id );
 
 const getEntries = (): PatientEntryNoSSN[] => {
-  return patientData. map(({
+  return patientData.map(({
     id,
     name,
     dateOfBirth,
@@ -31,8 +32,16 @@ const addEntry = ( entry: NewPatientEntry ): Patient => {
   return newPatientEntry;
 };
 
+const addVisit = ( visit: Entry, patient: Patient ): Patient => {
+  const toEntry = toNewPatientVisit(visit);
+  const updatedPatient = { ...patient, entries: patient.entries.concat(toEntry)};
+  patientData.map(e => e.id === patient.id ? updatedPatient : e);
+  return updatedPatient;
+};
+
 export default {
   getEntries,
   addEntry,
-  findById
+  findById,
+  addVisit
 };
