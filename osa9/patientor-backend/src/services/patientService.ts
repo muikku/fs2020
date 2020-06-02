@@ -33,7 +33,9 @@ const addEntry = ( entry: NewPatientEntry ): Patient => {
 };
 
 const addVisit = ( visit: Entry, patient: Patient ): Patient => {
-  const toEntry = toNewPatientVisit(visit);
+  const toEntry = toNewPatientVisit({
+    id: `${patient.entries.length+1}${patient.id}`,
+    ...visit});
   const updatedPatient = { ...patient, entries: patient.entries.concat(toEntry)};
   patientData.map(e => e.id === patient.id ? updatedPatient : e);
   return updatedPatient;

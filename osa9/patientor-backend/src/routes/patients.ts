@@ -25,6 +25,7 @@ router.post('/', (req, res) => {
 router.post('/:id/entries', (req, res) => {
   const foundPatient = patientService.findById(req.params.id);
   if(!foundPatient || !req.body){
+    console.log('Error: ', req);
     res.status(404);
   } else {
     const newPatientVisit = patientService.addVisit(req.body, foundPatient);
