@@ -21,7 +21,6 @@ export const toNewPatientVisit = (object: any): Entry => {
     throw new Error('Expected entry, object or type field missing.');
   }
   const basefields = ['description', 'date', 'specialist'];
-  console.log(object.type);
   switch(object.type){
     case 'HealthCheck':
       if(checkManyFields(object, [...basefields, 'healthCheckRating'])){
